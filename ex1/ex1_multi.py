@@ -58,44 +58,38 @@ print('Theta computed from gradient descent: \n');
 print(theta, '\n')
 
 
-'''
 
-% Estimate the price of a 1650 sq-ft, 3 br house
-% ====================== YOUR CODE HERE ======================
-% Recall that the first column of X is all-ones. Thus, it does
-% not need to be normalized.
-price = 0; % You should change this
 
-theta = zeros(3,1);
-[theta, J1] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-plot(1:50, J1(1:50), 'b'); 
-hold on; 
-alpha = 0.03;
-theta = zeros(3,1);
-[theta, J2] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-plot(1:50, J2(1:50), 'r'); 
-alpha = 0.1;
-theta = zeros(3,1);
-[theta, J3] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-plot(1:50, J3(1:50), 'k');
-alpha = 0.3;
-theta = zeros(3,1);
-alpha = 1;
-[theta, J4] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-plot(1:50, J4(1:50), 'g');
-theta = zeros(3,1);
-[theta, J5] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-plot(1:50, J5(1:50), 'y');
-% 여기서 alpha 를 다시 3배하면 J 가 발산한다. 
+# Estimate the price of a 1650 sq-ft, 3 br house
+# ====================== YOUR CODE HERE ======================
+# Recall that the first column of X is all-ones. Thus, it does
+# not need to be normalized.
+#rice = 0; % You should change this
 
-price = [1 (1650-mu(1,1))/sigma(1,1) (3-mu(1,2))/sigma(1,2)]*theta;
+plt.figure()
+theta = np.zeros((3,1))
+theta, J1 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+plt.plot(range(50), J1[0:50], 'b')
+alpha = 0.03
+theta = np.zeros((3,1))
+theta, J2 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+plt.plot(range(50), J2[0:50], 'r')
+alpha = 0.1
+theta = np.zeros((3,1))
+theta, J3 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+plt.plot(range(50), J3[0:50], 'k')
+alpha = 0.3
+theta = np.zeros((3,1))
+alpha = 1
+theta, J4 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+plt.plot(range(50), J4[0:50], 'g')
+theta = np.zeros((3,1))
+theta, J5 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+plt.plot(range(50), J5[0:50], 'y')
+# 여기서 alpha 를 다시 3배하면 J 가 발산한다. 
 
-% ============================================================
+price = np.dot(np.array([1 ,(1650-mu[0,0])/sigma[0,0], (3-mu[0,1])/sigma[0,1]]), theta);
 
-fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
-         '(using gradient descent):\n $%f\n'], price);
+# ============================================================
 
-fprintf('Program paused. Press enter to continue.\n');
-pause;
-
-'''
+print('Predicted price of a 1650 sq-ft, 3 br house (using gradient descent):\n ', price, '\n')

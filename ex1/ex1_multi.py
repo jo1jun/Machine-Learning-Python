@@ -2,21 +2,21 @@ import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 import numpy as np
 import matplotlib.pyplot as plt
-from loadMulti import loadMulti
+from load import load
 from featureNormalize import featureNormalize
-from plotData import plotData
-from computeCost import computeCost
 from gradientDescentMulti import gradientDescentMulti
+from normalEqn import normalEqn
 
 ## ================ Part 1: Feature Normalization ================
 
 print('Loading data ...\n')
 
 ## Load Data
-data = loadMulti('ex1data2.txt')    #dataset 가 두개 뿐이니 범용성 고려하지 않았다. (귀찮아서..)
+data = load('ex1data2.txt')
 X = data[:, 0:2]
-y = data[:, 2]
+y = np.array(data[:, 2])
 m = y.shape[0]
+y = y[:,np.newaxis]                 #y 를 1차원 tuple 에서 2차원 배열로 (m,) -> (m,1)
 
 # Print out some data points
 print('First 10 examples from the dataset: \n')      
@@ -30,7 +30,6 @@ print('Normalizing Features ...\n');
 X, mu, sigma = featureNormalize(X)
 
 # Add intercept term to X
-
 X = np.ones((m,1))
 X = np.append(X, data[:,0:2], axis = 1) # Add a column of ones to x
 
@@ -64,7 +63,7 @@ print(theta, '\n')
 # ====================== YOUR CODE HERE ======================
 # Recall that the first column of X is all-ones. Thus, it does
 # not need to be normalized.
-#rice = 0; % You should change this
+price = 0 # You should change this
 
 plt.figure()
 theta = np.zeros((3,1))
@@ -93,3 +92,37 @@ price = np.dot(np.array([1 ,(1650-mu[0,0])/sigma[0,0], (3-mu[0,1])/sigma[0,1]]),
 # ============================================================
 
 print('Predicted price of a 1650 sq-ft, 3 br house (using gradient descent):\n ', price, '\n')
+
+## ================ Part 3: Normal Equations ================
+
+print('Solving with normal equations...\n');
+
+## Load Data
+data = load('ex1data2.txt')
+X = data[:,0:2]
+y = data[:, 2]
+m = y.shape[0]
+y = y[:,np.newaxis]
+
+# Add intercept term to X
+X = np.append(np.ones((m,1)), X, axis = 1) # Add a column of ones to x
+
+# Calculate the parameters from the normal equation
+theta = normalEqn(X, y);
+
+# Display normal equation's result
+print('Theta computed from the normal equations: \n');
+print(theta, '\n');
+
+
+# Estimate the price of a 1650 sq-ft, 3 br house
+# ====================== YOUR CODE HERE ======================
+price = 0   # You should change this
+
+price = [1, 1650, 3] @ theta
+
+# ============================================================
+
+print('Predicted price of a 1650 sq-ft, 3 br house (using normal equations) : ', price)
+
+

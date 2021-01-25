@@ -25,6 +25,7 @@ data = load('ex1data1.txt');
 X = data[:,0]
 y = data[:,1]
 m = y.shape[0] # number of training examples
+y = y[:,np.newaxis]
 
 # Plot Data
 # Note: You have to complete the code in plotData.py
@@ -60,7 +61,7 @@ print('Expected cost value (approx) 54.24\n');
 
 print('\nRunning Gradient Descent ...\n')
 # run gradient descent
-theta, thetahistory = gradientDescent(X, y, theta, alpha, iterations);
+theta = gradientDescent(X, y, theta, alpha, iterations);
 
 
 # print theta to screen

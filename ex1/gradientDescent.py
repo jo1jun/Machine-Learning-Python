@@ -13,4 +13,7 @@ def gradientDescent(X, y, theta, alpha, num_iters):
         delta /= m
         theta -= delta
         
+
     return theta
+
+    #need to vectorize -> gradientDescentMulti

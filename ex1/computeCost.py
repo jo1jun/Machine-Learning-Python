@@ -11,4 +11,4 @@ def computeCost(X, y, theta):
     
     return J
 
-    
+    #need to vectorize -> computeCostMulti

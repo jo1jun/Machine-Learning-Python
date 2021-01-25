@@ -108,6 +108,7 @@ for i in range(theta0_vals.shape[0]):
 # transpose J_vals before calling surf, or else the axes will be flipped
 J_vals = J_vals.T
 
+# Surface plot
 from mpl_toolkits import mplot3d
 
 fig = plt.figure(figsize=(8,6))

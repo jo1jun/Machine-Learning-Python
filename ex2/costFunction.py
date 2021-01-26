@@ -10,10 +10,11 @@ def costFunction(theta, X, y):
     
     # Initialize some useful values
     
-    m = y.shape[0] # number of training examples
+    m,n = X.shape # number of training examples
     
     # You need to return the following variables correctly 
     J = 0
+    theta = np.array(theta)[:, np.newaxis]
     grad = np.zeros_like(theta)
     
     # ====================== YOUR CODE HERE ======================
@@ -27,9 +28,15 @@ def costFunction(theta, X, y):
     
     #fully vectorize
     
-    J = -(y.T @ np.log(sigmoid(X @ theta)) + (1 - y).T @ np.log(1 - sigmoid(X @ theta))) / m
+    h = sigmoid(X @ theta)
     
-    grad = X.T @ (sigmoid(X @ theta) - y) / m
+    dummy = 1e-7    #log 안에 0 값을 방지
+    
+    J = -(y.T @ np.log(h + dummy) + (1 - y).T @ np.log(1 - h + dummy)) / m
+
+    grad = X.T @ (h - y) / m
+    
+    grad = grad.flatten()
     
     return J, grad
     

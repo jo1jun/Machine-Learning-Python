@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from plotData import plotData
 from costFunction import costFunction
-from gradientDescentMulti import gradientDescentMulti
 from plotDecisionBoundary import plotDecisionBoundary
 from sigmoid import sigmoid
 from predict import predict
@@ -40,7 +39,7 @@ m, n = X.shape
 X = np.append(np.ones((m, 1)), X, axis=1)
 
 # Initialize fitting parameters
-initial_theta = np.zeros((n + 1, 1))
+initial_theta = np.zeros(n + 1)
 
 # Compute and display initial cost and gradient
 
@@ -53,7 +52,7 @@ print(grad, '\n')
 print('Expected gradients (approx):\n -0.1000\n -12.0092\n -11.2628\n')
 
 # Compute and display cost and gradient with non-zero theta
-test_theta = [[-24], [0.2], [0.2]]
+test_theta = [-24, 0.2, 0.2]
 cost, grad = costFunction(test_theta, X, y)
 
 print('\nCost at test theta: ', cost, '\n')
@@ -66,16 +65,24 @@ print('Expected gradients (approx):\n 0.043\n 2.566\n 2.647\n')
 ## ============= Part 3: Optimizing using fminunc  =============
 #  In this exercise, you will use a built-in function (fminunc) to find the
 #  optimal parameters theta.
-#  python 에서 동작하는 프레임 워크를 사용.
-#  미구현 그대신 gradientDescentMulti 를 이용.
+#  octave 의 fminunc 대신, python 에서 동작하는 프레임 워크(scipy.optimize.minimize)를 활용
+#  reference : https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize
 
-'''
-theta, J = gradientDescentMulti(X, y, initial_theta, alpha=0.01, num_iters=700000)   #이정도 alpha 와 반복수 이어야 얼추 비슷. (비효율적..)
-# Print theta to screen
-print('Cost at theta found by gradientDescentMulti: ', cost, '\n')
-print('theta: \n')
-print(theta, '\n')
-'''
+import scipy.optimize as op
+
+print ('Executing minimize function...\n')
+
+initial_theta = [0,0,0]
+result = op.minimize(fun=costFunction,x0=initial_theta,args=(X,y),jac=True,options={'maxiter':400})
+#입출력 theta 는 반드시 평탄화가 되어있어야 한다.
+#costFunction 내부에서 평탄화를 다시 reshaping 하면 된다.
+#argument 로 method = '특정 method' 로 지정할 수도 있다.
+    
+print('Cost at theta found : \n', result.fun, '\n')          #result.fun 은 costFunction 의 theta 에 대한 값.
+print('Expected cost (approx): 0.203\n')
+print('theta: \n',result.x, '\n')                            #result.x 는 최적화한 theta 의 값
+print('Expected theta (approx):\n')
+print(' -25.161\n 0.206\n 0.201\n')
 
 theta = np.array([[-25.161272],[0.206233],[0.201470]])  #   fminuc 으로 학습한 theta 값.
 

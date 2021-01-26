@@ -77,6 +77,7 @@ result = op.minimize(fun=costFunction,x0=initial_theta,args=(X,y),jac=True,optio
 #입출력 theta 는 반드시 평탄화가 되어있어야 한다.
 #costFunction 내부에서 평탄화를 다시 reshaping 하면 된다.
 #argument 로 method = '특정 method' 로 지정할 수도 있다.
+#If jac is a Boolean and is True, fun(costFunction) is assumed to return and objective and gradient as an (f, g) tuple.
     
 print('Cost at theta found : \n', result.fun, '\n')          #result.fun 은 costFunction 의 theta 에 대한 값.
 print('Expected cost (approx): 0.203\n')

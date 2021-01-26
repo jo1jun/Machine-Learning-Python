@@ -1,3 +1,5 @@
+## Machine Learning Online Class - Exercise 1: Linear Regression
+
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 import numpy as np
@@ -8,17 +10,19 @@ from plotData import plotData
 from computeCost import computeCost
 from gradientDescent import gradientDescent
 
+# x refers to the population size in 10,000s
+# y refers to the profit in $10,000s
 
 ## ==================== Part 1: Basic Function ====================
+
 # Complete warmUpExercise.py
 print('Running warmUpExercise ... \n');
 print('5x5 Identity Matrix: \n');
-print(warmUpExercise())
-
-#input("Program paused. Press enter to continue.\n") #pause
+print(warmUpExercise(), '\n')
 
 
 ## ======================= Part 2: Plotting =======================
+
 print('Plotting Data ...\n')
 
 data = load('ex1data1.txt');
@@ -31,45 +35,39 @@ y = y[:,np.newaxis]
 # Note: You have to complete the code in plotData.py
 plotData(X, y);
 
-#input("Program paused. Press enter to continue.\n") #pause
 
 ## =================== Part 3: Cost and Gradient descent ===================
 
-X = np.ones((m,1))
-X = np.append(X, data[:,0].reshape(m,1), axis = 1) # Add a column of ones to x
+X = np.append(np.ones((m,1)), data[:,0].reshape(m,1), axis = 1) # Add a column of ones to x
 
 theta = np.zeros((2, 1), float); # initialize fitting parameters
 
 # Some gradient descent settings
-iterations = 1500;
-alpha = 0.01;
+iterations = 1500
+alpha = 0.01
 
 print('\nTesting the cost function ...\n')
 # compute and display initial cost
 J = computeCost(X,y,theta)
-print('With theta = [[0],[0]]\nCost computed = ', J, '\n');
-print('Expected cost value (approx) 32.07\n');
+print('With theta = [[0],[0]]\nCost computed = ', J, '\n')
+print('Expected cost value (approx) 32.07\n')
 
 # further testing of the cost function
 theta = np.array([[-1],[2]], float)
 J = computeCost(X, y, theta);
-print('\nWith theta = [[-1],[2]]\nCost computed = ', J, '\n');
-print('Expected cost value (approx) 54.24\n');
-
-#input('Program paused. Press enter to continue.\n');
-
+print('\nWith theta = [[-1],[2]]\nCost computed = ', J, '\n')
+print('Expected cost value (approx) 54.24\n')
 
 print('\nRunning Gradient Descent ...\n')
 # run gradient descent
-theta = gradientDescent(X, y, theta, alpha, iterations);
+theta, _ = gradientDescent(X, y, theta, alpha, iterations);
 
 
 # print theta to screen
-print('Theta found by gradient descent:\n');
-print(theta, '\n');
-print('Expected theta values (approx)\n');
-print(' -3.6303\n  1.1664\n\n');
-
+print('Theta found by gradient descent:\n')
+print(theta, '\n')
+print('Expected theta values (approx)\n')
+print(' -3.6303\n  1.1664\n\n')
 
 # Plot the linear fit
 plt.plot(X[:,1], np.dot(X,theta), label='Linear regression')
@@ -83,17 +81,14 @@ print('For population = 35,000, we predict a profit of ',predict1*10000, '\n')
 predict2 = np.dot([1, 7], theta);
 print('For population = 70,000, we predict a profit of ', predict2*10000, '\n')
 
-#input('Program paused. Press enter to continue.\n');
 
 ## ============= Part 4: Visualizing J(theta_0, theta_1) =============
-print('Visualizing J(theta_0, theta_1) ...\n')
 
-#
+print('Visualizing J(theta_0, theta_1) ...\n')
 
 # Grid over which we will calculate J
 theta0_vals = np.linspace(-10, 10, 100)     #-10 ~ 10 까지 100 개의 원소 생성
 theta1_vals = np.linspace(-1, 4, 100)
-
 
 # initialize J_vals to a matrix of 0's
 J_vals = np.zeros((theta0_vals.shape[0], theta1_vals.shape[0]));

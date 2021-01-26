@@ -1,8 +1,15 @@
 import numpy as np
+from computeCost import computeCost
+
+#GRADIENTDESCENT Performs gradient descent to learn theta
+#   theta = GRADIENTDESCENT(X, y, theta, alpha, num_iters) updates theta by 
+#   taking num_iters gradient steps with learning rate alpha
 
 def gradientDescent(X, y, theta, alpha, num_iters):
     
-    m = y.shape[0]
+    # Initialize some useful values
+    m = y.shape[0]  # number of training examples
+    J_history = np.zeros((num_iters,1))
     
     for idx in range(num_iters):
         delta = np.zeros_like(theta, float)
@@ -12,8 +19,9 @@ def gradientDescent(X, y, theta, alpha, num_iters):
         delta *= alpha
         delta /= m
         theta -= delta
+            
+        J_history[idx] = computeCost(X, y, theta)
         
+    return theta, J_history
 
-    return theta
-
-    #need to vectorize -> gradientDescentMulti
+    #   **need to vectorize -> gradientDescentMulti**

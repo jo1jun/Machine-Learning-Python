@@ -1,3 +1,6 @@
+## Machine Learning Online Class
+#  Exercise 1: Linear regression with multiple variables
+
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 import numpy as np
@@ -15,8 +18,8 @@ print('Loading data ...\n')
 data = load('ex1data2.txt')
 X = data[:, 0:2]
 y = np.array(data[:, 2])
-m = y.shape[0]
 y = y[:,np.newaxis]                 #y 를 1차원 tuple 에서 2차원 배열로 (m,) -> (m,1)
+m = y.shape[0]
 
 # Print out some data points
 print('First 10 examples from the dataset: \n')      
@@ -30,8 +33,7 @@ print('Normalizing Features ...\n');
 X, mu, sigma = featureNormalize(X)
 
 # Add intercept term to X
-X = np.ones((m,1))
-X = np.append(X, data[:,0:2], axis = 1) # Add a column of ones to x
+X = np.append(np.ones((m,1)), X, axis = 1) # Add a column of ones to x
 
 ## ================ Part 2: Gradient Descent ================
 
@@ -51,18 +53,15 @@ plt.plot(range(num_iters), J_history)
 plt.xlabel('Number of iterations');
 plt.ylabel('Cost J');
 
-
 # Display gradient descent's result
 print('Theta computed from gradient descent: \n');
 print(theta, '\n')
-
-
-
 
 # Estimate the price of a 1650 sq-ft, 3 br house
 # ====================== YOUR CODE HERE ======================
 # Recall that the first column of X is all-ones. Thus, it does
 # not need to be normalized.
+
 price = 0 # You should change this
 
 plt.figure()
@@ -79,13 +78,16 @@ theta, J3 = gradientDescentMulti(X, y, theta, alpha, num_iters)
 plt.plot(range(50), J3[0:50], 'k')
 alpha = 0.3
 theta = np.zeros((3,1))
-alpha = 1
 theta, J4 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J4[0:50], 'g')
-theta = np.zeros((3,1))
+plt.plot(range(50), J4[0:50], 'c')
+alpha = 1
 theta, J5 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J5[0:50], 'y')
+plt.plot(range(50), J5[0:50], 'g')
 # 여기서 alpha 를 다시 3배하면 J 가 발산한다. 
+#alpha = 3
+#theta = np.zeros((3,1))
+#theta, J6 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+#plt.plot(range(50), J6[0:50], 'y')
 
 price = np.dot(np.array([1 ,(1650-mu[0,0])/sigma[0,0], (3-mu[0,1])/sigma[0,1]]), theta);
 
@@ -101,8 +103,8 @@ print('Solving with normal equations...\n');
 data = load('ex1data2.txt')
 X = data[:,0:2]
 y = data[:, 2]
-m = y.shape[0]
 y = y[:,np.newaxis]
+m = y.shape[0]
 
 # Add intercept term to X
 X = np.append(np.ones((m,1)), X, axis = 1) # Add a column of ones to x

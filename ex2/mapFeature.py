@@ -19,7 +19,6 @@ def mapFeature(X1, X2):
         X1 = X1[:,np.newaxis]
         X2 = X2[:,np.newaxis]
         out = np.ones_like(X1)
-    
         for i in range(degree):
             for j in range((i+1) + 1):
                 out = np.append(out, ((X1 ** ((i+1)-j)) * (X2 ** j)), axis=1)

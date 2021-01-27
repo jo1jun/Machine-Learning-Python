@@ -93,7 +93,6 @@ initial_theta = np.zeros(X.shape[1])
 # Set regularization parameter lambda to 1 (you should vary this)
 _lambda = 1
 
-
 #  octave 의 fminunc 대신, python 에서 동작하는 프레임 워크(scipy.optimize.minimize)를 활용
 #  reference : https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize
 
@@ -110,7 +109,7 @@ result = op.minimize(fun=costFunctionReg,x0=initial_theta,args=(X,y,_lambda),jac
 # Plot Boundary
 plotDecisionBoundary(result.x, X, y)
 
-#plt.title(sprintf('lambda = %g', _lambda))
+plt.title('lambda = 1')
 
 # Labels and Legend
 plt.xlabel('Microchip Test 1')
@@ -121,5 +120,44 @@ plt.legend(['y = 1', 'y = 0', 'Decision boundary'])
 # Compute accuracy on our training set
 p = predict(result.x, X)
 
+print('lambda = 1\n')
 print('Train Accuracy: ', float(np.mean((p == y))) * 100, '\n')
 print('Expected accuracy (with lambda = 1): 83.1 (approx)\n')
+
+# No regularization (Overfitting) (λ = 0)
+_lambda = 0
+result = op.minimize(fun=costFunctionReg,x0=initial_theta,args=(X,y,_lambda),jac=True,options={'maxiter':400})
+plotDecisionBoundary(result.x, X, y)
+
+plt.title('lambda = 0')
+
+# Labels and Legend
+plt.xlabel('Microchip Test 1')
+plt.ylabel('Microchip Test 2')
+
+plt.legend(['y = 1', 'y = 0', 'Decision boundary'])
+
+# Compute accuracy on our training set
+p = predict(result.x, X)
+
+print('lambda = 0\n')
+print('Train Accuracy: ', float(np.mean((p == y))) * 100, '\n')
+
+#Too much regularization (Underfitting) (λ = 100)
+_lambda = 100
+result = op.minimize(fun=costFunctionReg,x0=initial_theta,args=(X,y,_lambda),jac=True,options={'maxiter':400})
+plotDecisionBoundary(result.x, X, y)
+
+plt.title('lambda = 100')
+
+# Labels and Legend
+plt.xlabel('Microchip Test 1')
+plt.ylabel('Microchip Test 2')
+
+plt.legend(['y = 1', 'y = 0', 'Decision boundary'])
+
+# Compute accuracy on our training set
+p = predict(result.x, X)
+
+print('lambda = 100\n')
+print('Train Accuracy: ', float(np.mean((p == y))) * 100, '\n')

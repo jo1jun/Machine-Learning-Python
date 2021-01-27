@@ -25,6 +25,9 @@ y = y[:,np.newaxis]
 print('Plotting data with + indicating (y = 1) examples and o indicating (y = 0) examples.\n')
 
 plotData(X, y)
+plt.legend(['Admitted','Not admitted'])
+plt.xlabel('Exam 1 score')
+plt.ylabel('Exam 2 score')
 plt.show()
 
 ## ============ Part 2: Compute Cost and Gradient ============
@@ -89,6 +92,8 @@ theta = np.array([[-25.161272],[0.206233],[0.201470]])  #   fminuc 으로 학습
 
 # Plot Boundary
 plotDecisionBoundary(theta, X, y)
+plt.xlabel('Exam 1 score')
+plt.ylabel('Exam 2 score')
 plt.show()
 
 ## ============== Part 4: Predict and Accuracies ==============

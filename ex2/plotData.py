@@ -11,14 +11,5 @@ def plotData(X, y):
     neg = np.where(y==0)
 
     # Plot Examples 
-    plt.scatter(X[pos, 0], X[pos, 1], marker='+', linewidths=2, label='Admitted')
-    plt.scatter(X[neg, 0], X[neg, 1], marker='o', c='y', label='Not admitted')
-    plt.legend()
-
-    # Put some labels 
-    # Labels and Legend
-    plt.xlabel('Exam 1 score')
-    plt.ylabel('Exam 2 score')
-    
-    # Specified in plot order
-
+    plt.scatter(X[pos, 0], X[pos, 1], marker='+', linewidths=2)
+    plt.scatter(X[neg, 0], X[neg, 1], marker='o', c='y')

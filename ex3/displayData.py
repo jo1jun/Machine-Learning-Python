@@ -7,8 +7,8 @@ def displayData(X):
     #   [h, display_array] = DISPLAYDATA(X, example_width) displays 2D data
     #   stored in X in a nice grid. It returns the figure handle h and the 
     #   displayed array if requested.
-    
     # Set example_width automatically if not passed in
+        
     example_width = round(math.sqrt(X.shape[1]))    #round = 반올림(float -> int)
     
     # Gray Image

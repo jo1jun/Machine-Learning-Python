@@ -40,15 +40,16 @@ def lrCostFunction(theta, X, y, _lambda):
     #           grad = grad + YOUR_CODE_HERE (using the temp variable)
     #
     
-
+    
     J = (-y.T @ np.log(sigmoid(X @ theta)) - (1-y).T @ np.log(1-sigmoid(X @ theta))) / m 
     J += (_lambda / (2*m)) * (theta[1:].T @ theta[1:]) #np.sum(np.square(theta)) 를 theta 끼리의 dot product 로 구할 수 있다.
     #0 번 index 는 제외.
     grad = (X.T @ (sigmoid(X @ theta) - y)) / m
     grad[1:] += (_lambda / m) * theta[1:] #0 번 index 는 제외.
-
-    # =============================================================
     
     grad = grad.flatten()
     
     return J, grad
+    
+    # =============================================================
+    

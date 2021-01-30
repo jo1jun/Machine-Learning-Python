@@ -41,14 +41,11 @@ print('Loading and Visualizing Data ...\n')
 #MATLAB 파일 읽기
 mat = scipy.io.loadmat('ex3data1.mat') # training data stored in arrays X, y
 X, y = mat['X'], mat['y']
-#Insert a column of 1's to X as usual
 #print(X.shape)
 #print(y.shape)
 
 print("'y' shape: ", mat['y'].shape, "Unique elements in y: " ,np.unique(mat['y']))
 print("'X' shape: ",X.shape,"X[0] shape: ",X[0].shape)
-#X is 5000 images. Each image is a row. Each image has 400 pixels unrolled (20x20)
-#y is a classification for each image. 1-10, where "10" is the handwritten "0"
 
 m = X.shape[0]
 

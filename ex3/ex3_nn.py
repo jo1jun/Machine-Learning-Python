@@ -80,7 +80,7 @@ pred = pred.reshape((pred.shape[0],1))
 #print(pred.shape)
 #print(y.shape)
 
-print('\nTraining Set Accuracy: ', np.mean(pred== y) * 100, '\n')
+print('\nTraining Set Accuracy: ', np.mean(pred==y) * 100, '\n')
 
 #  To give you an idea of the network's output, you can also run
 #  through the examples one at the a time to see what it is predicting.

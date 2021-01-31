@@ -24,9 +24,9 @@ def predict(Theta1, Theta2, X):
     #
     X = np.append(np.ones((m,1)), X, axis=1)
     
-    a2 = sigmoid(X @ Theta1.T)
-    a2 = np.append(np.ones((a2.shape[0],1)), a2, axis=1) #bias 추가.
-    a3 = sigmoid(a2 @ Theta2.T) # 이것이 가설의 최종 값.
+    a2 = sigmoid(X @ Theta1.T)  #(m * n) * (n * h) = (m * h)
+    a2 = np.append(np.ones((a2.shape[0],1)), a2, axis=1) #bias 추가
+    a3 = sigmoid(a2 @ Theta2.T) # 이것이 가설의 최종 값. #(m * h) * (h * 10) = (m * 10)
     p = np.argmax(a3, axis=1) + 1 #index 가 0부터 시작하므로 + 1 로 보정.
     
     return p

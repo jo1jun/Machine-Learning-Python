@@ -25,7 +25,7 @@ def randInitializeWeights(L_in,L_out):
     #You should use 0.12 This range of values ensures that the parameters are kept small and makes the learning more efficient.
     
     epsilon_init = 0.12
-    W = np.random.randn(L_out, 1 + L_in) * 2 * epsilon_init - epsilon_init
+    W = np.random.rand(L_out, 1 + L_in) * 2 * epsilon_init - epsilon_init
 
     #지금은 깊게 알 필요 x 요점은 symmetry breaking 을 위해서 random initialize 해야하고 주어진 std 값을 쓰라는 것.
     return W    

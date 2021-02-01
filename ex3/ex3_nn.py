@@ -76,7 +76,7 @@ print('Theta2.shape : ', Theta2.shape)
 #  you compute the training set accuracy.
 
 pred = predict(Theta1, Theta2, X)
-pred = pred.reshape((pred.shape[0],1))
+pred = pred.reshape(-1,1)
 #print(pred.shape)
 #print(y.shape)
 

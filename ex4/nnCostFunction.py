@@ -1,5 +1,6 @@
 import numpy as np
 from sigmoid import sigmoid
+from sigmoidGradient import sigmoidGradient
 
 def nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, _lambda):
     #NNCOSTFUNCTION Implements the neural network cost function for a two layer
@@ -82,7 +83,43 @@ def nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X
     y_t[np.arange(m),y.reshape(-1) - 1] = 1                 #y 를 [0 0 ... 1 0 0] 형태로 변환. (+index 보정)
     #print(y_t.shape)
     J = np.sum((-y_t*np.log(h) - (1 - y_t)*np.log(1 - h))) / m
+    #logistic regression(binary class) 에서는 y 가 (m,1), h가 (m,1) 이었으므로 y.T @ np.log(h) 로 표현해도 되었던 것. 지금은 multi class.
     J_regterm = _lambda/(2*m) * (np.sum(np.square(Theta1[:,1:])) + np.sum(np.square(Theta2[:,1:]))) #Theta 는 bias 부분 제거 후 연산
     J += J_regterm
     
-    return J
+    '''
+    #backward (bias 제외) (for loop)
+    #원래 식 활용하면서 m 번 반복 할 수 있지만 비효율적.
+    for i in range(m):
+        a1 = X[i].reshape(-1,1)                         #(400,1)
+        a1 = np.append(1, a1)                           #(401,1)
+        z2 = (Theta1 @ a1).reshape(-1,1)                #(25,1) #행렬곱 하면 차원이 풀어짐.
+        a2 = sigmoid(z2)
+        a2 = np.append(1, a2)                           #(26,1)
+        z3 = (Theta2 @ a2).reshape(-1,1)                #(10,1)
+        a3 = sigmoid(z3)
+        h = a3
+        
+        d3 = (h - y_t[i].reshape(-1,1)) / m                                 #(10,1) #batch size 가 m 이므로 m 으로 나누기.
+        Theta2_grad += d3 @ a2.reshape(-1,1).T                              #(10,26)
+        d2 = Theta2[:,1:].T @ d3 * sigmoidGradient(z2).reshape(-1,1)        #(25,1)
+        Theta1_grad += d2 @ a1.reshape(-1,1).T                              #(25,401)
+    
+    Theta2_grad[:,1:] += (_lambda/m) * Theta2[:,1:]
+    Theta1_grad[:,1:] += (_lambda/m) * Theta1[:,1:]
+    '''
+    
+    #backward (fully vectorize)                                                 #원래 식을 vectorize 하기 위해 변형
+    #행렬 곱셈을 transpose 로 잘 맞추면 된다.
+    d3 = (h - y_t) / m                                                          #변환한 y 를 사용, batch size 가 m 이므로 m 으로 나누기.
+    Theta2_grad = d3.T @ a2                                                     #batch 단위로 vectorize 했으므로 m 으로 나눠야함.
+    Theta2_grad[:,1:] += (_lambda/m) * Theta2[:,1:]                             #bias 항에는 regterm 제외
+    
+    d2 = d3 @ Theta2[:,1:] * sigmoidGradient(z2)                                #bias 부분 제거 이후 오차 역전파
+    Theta1_grad = d2.T @ a1
+    Theta1_grad[:,1:] += (_lambda/m) * Theta1[:,1:]
+    
+    grad = np.append(Theta1_grad.reshape(-1), Theta2_grad.reshape(-1))
+    print('cost : ',J,'\n')
+    
+    return J, grad

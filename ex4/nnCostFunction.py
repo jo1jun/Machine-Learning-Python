@@ -87,6 +87,14 @@ def nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X
     J_regterm = _lambda/(2*m) * (np.sum(np.square(Theta1[:,1:])) + np.sum(np.square(Theta2[:,1:]))) #Theta 는 bias 부분 제거 후 연산
     J += J_regterm
     
+    #lecture note 에서는 마지막에 Theta grad 에 1/m 을 곱해주는데 d3 에 1/m 을 곱해줘도 상수 계수 이므로 앞으로 전파되어서 문제없다.   
+    #역전파 할 때 뒷 층의 bias 에 대한 가중치는 앞 층으로 전달될 error(delta) 를 계산할 때 활용하지 않는다.
+    #왜냐하면 앞 층으로 전달될 error(delta) 는 앞 층의 가중치들을 갱신하기 위해서 전달하는 것인데 뒷 층의 bias 는 앞 층의 가중치들에
+    #의해 전혀 영향을 받지 않는 고정값 1 이기 때문이다. bias 를 제외한 뒷 층의 모든 a(z 에서 activation function 통과), z 는
+    #앞 층의 가중치로 연산하여 나온 결과의므로 이들과 관련된 가중치들 만을 활용하여 앞 층에 전달할 delta 를 계산한다.
+    #deep learning from scratch 에서는 이에 대한 고민이 필요없었다. 왜냐면 bias vector 가 따로 있었기 때문.
+    #여기서는 bias 가 theta_0 로 같이 붙어있다.
+    
     '''
     #backward (bias 제외) (for loop)
     #원래 식 활용하면서 m 번 반복 할 수 있지만 비효율적.
@@ -120,6 +128,5 @@ def nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X
     Theta1_grad[:,1:] += (_lambda/m) * Theta1[:,1:]
     
     grad = np.append(Theta1_grad.reshape(-1), Theta2_grad.reshape(-1))
-    print('cost : ',J,'\n')
     
     return J, grad

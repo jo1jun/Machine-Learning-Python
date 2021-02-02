@@ -8,7 +8,6 @@ from sigmoidGradient import sigmoidGradient
 from randInitializeWeights import randInitializeWeights
 from checkNNGradients import checkNNGradients
 import scipy.optimize as op
-from displayData import displayData
 from predict import predict
 
 ## Machine Learning Online Class - Exercise 4 Neural Network Learning

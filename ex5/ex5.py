@@ -5,6 +5,10 @@ import scipy.io
 import matplotlib.pyplot as plt
 from linearRegCostFunction import linearRegCostFunction
 from trainLinearReg import trainLinearReg
+from learningCurve import learningCurve
+from polyFeatures import polyFeatures
+from featureNormalize import featureNormalize
+from plotFit import plotFit
 ## Machine Learning Online Class
 #  Exercise 5 | Regularized Linear Regression and Bias-Variance
 #
@@ -35,9 +39,13 @@ print('Loading and Visualizing Data ...\n')
 # You will have X, y, Xval, yval, Xtest, ytest in your environment
 mat = scipy.io.loadmat('ex5data1.mat')
 X, y = mat['X'], mat['y']
+Xval, yval = mat['Xval'], mat['yval']
+Xtest, ytest = mat['Xtest'], mat['ytest']
 
 #print(X.shape) #(12,1)
 #print(y.shape) #(12,1)
+#print(Xval.shape) #(21,1)
+#print(yval.shape) #(21,1)
 
 # m = Number of examples
 m = X.shape[0]
@@ -91,7 +99,7 @@ plt.ylabel('Water flowing out of the dam (y)')
 
 plt.plot(X, np.insert(X,0,1,axis=1) @ theta, '--', 'LineWidth', 2)
 
-'''
+
 
 ## =========== Part 5: Learning Curve for Linear Regression =============
 #  Next, you should implement the learningCurve function. 
@@ -100,59 +108,51 @@ plt.plot(X, np.insert(X,0,1,axis=1) @ theta, '--', 'LineWidth', 2)
 #                 see a graph with "high bias" -- Figure 3 in ex5.pdf 
 #
 
+error_train, error_val = \
+    learningCurve(np.insert(X,0,1,axis=1), y, np.insert(Xval,0,1,axis=1), yval, _lambda)
 
-_lambda = 0
-[error_train, error_val] = ...
-    learningCurve([ones(m, 1) X], y, ...
-                  [ones(size(Xval, 1), 1) Xval], yval, ...
-                  lambda);
+plt.figure()
+plt.plot(list(range(m)), error_train)
+plt.plot(list(range(m)), error_val)
+plt.title('Learning curve for linear regression')
+plt.legend(['Train', 'Cross Validation'])
+plt.xlabel('Number of training examples')
+plt.ylabel('Error')
+plt.axis([0, 13, 0, 150])
 
-plot(1:m, error_train, 1:m, error_val);
-title('Learning curve for linear regression')
-legend('Train', 'Cross Validation')
-xlabel('Number of training examples')
-ylabel('Error')
-axis([0 13 0 150])
+print('# Training Examples\tTrain Error\tCross Validation Error\n')
+for i in range(m):
+    print('  \t{0}\t\t{1}\t{2}\n'.format(i, error_train[i], error_val[i]))
 
-fprintf('# Training Examples\tTrain Error\tCross Validation Error\n');
-for i = 1:m
-    fprintf('  \t#d\t\t#f\t#f\n', i, error_train(i), error_val(i));
-end
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
 
 ## =========== Part 6: Feature Mapping for Polynomial Regression =============
 #  One solution to this is to use polynomial regression. You should now
 #  complete polyFeatures to map each example into its powers
 #
 
-p = 8;
+p = 8
+
+#octave 의 bsxfun 은 numpy 의 broadcast 이다. numpy 개발자분들 thank you!!!
 
 # Map X onto Polynomial Features and Normalize
-X_poly = polyFeatures(X, p);
-[X_poly, mu, sigma] = featureNormalize(X_poly);  # Normalize
-X_poly = [ones(m, 1), X_poly];                   # Add Ones
+X_poly = polyFeatures(X, p)
+X_poly, mu, sigma = featureNormalize(X_poly)   # Normalize
+X_poly = np.insert(X_poly,0,1,axis=1)          # Add Ones
 
 # Map X_poly_test and normalize (using mu and sigma)
-X_poly_test = polyFeatures(Xtest, p);
-X_poly_test = bsxfun(@minus, X_poly_test, mu);
-X_poly_test = bsxfun(@rdivide, X_poly_test, sigma);
-X_poly_test = [ones(size(X_poly_test, 1), 1), X_poly_test];         # Add Ones
+X_poly_test = polyFeatures(Xtest, p)
+X_poly_test = X_poly_test - mu
+X_poly_test = X_poly_test / sigma
+X_poly_test = np.insert(X_poly_test,0,1,axis=1) # Add Ones
 
 # Map X_poly_val and normalize (using mu and sigma)
-X_poly_val = polyFeatures(Xval, p);
-X_poly_val = bsxfun(@minus, X_poly_val, mu);
-X_poly_val = bsxfun(@rdivide, X_poly_val, sigma);
-X_poly_val = [ones(size(X_poly_val, 1), 1), X_poly_val];           # Add Ones
+X_poly_val = polyFeatures(Xval, p)
+X_poly_val = X_poly_val - mu
+X_poly_val = X_poly_val / sigma
+X_poly_val = np.insert(X_poly_val,0,1,axis=1)   # Add Ones
 
-fprintf('Normalized Training Example 1:\n');
-fprintf('  #f  \n', X_poly(1, :));
-
-fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
-
-
+print('Normalized Training Example 1:\n');
+print('  {}  \n'.format(X_poly[0, :].reshape(-1,1)))
 
 ## =========== Part 7: Learning Curve for Polynomial Regression =============
 #  Now, you will get to experiment with polynomial regression with multiple
@@ -161,43 +161,42 @@ pause;
 #  lambda to see how the fit and learning curve change.
 #
 
-lambda = 0;
-[theta] = trainLinearReg(X_poly, y, lambda);
+_lambda = 0
+theta = trainLinearReg(X_poly, y, _lambda)
 
 # Plot training data and fit
-figure(1);
-plot(X, y, 'rx', 'MarkerSize', 10, 'LineWidth', 1.5);
-plotFit(min(X), max(X), mu, sigma, theta, p);
-xlabel('Change in water level (x)');
-ylabel('Water flowing out of the dam (y)');
-title (sprintf('Polynomial Regression Fit (lambda = #f)', lambda));
+plt.figure()
+plt.plot(X, y, 'rx', markersize=10, linewidth=1.5)
+plotFit(np.min(X), np.max(X), mu, sigma, theta, p)
+plt.xlabel('Change in water level (x)');
+plt.ylabel('Water flowing out of the dam (y)');
+plt.title('Polynomial Regression Fit (lambda = {})'.format(_lambda))
 
-figure(2);
-[error_train, error_val] = ...
-    learningCurve(X_poly, y, X_poly_val, yval, lambda);
-plot(1:m, error_train, 1:m, error_val);
+plt.figure()
+error_train, error_val = \
+    learningCurve(X_poly, y, X_poly_val, yval, _lambda)
+plt.plot(list(range(m)), error_train)
+plt.plot(list(range(m)), error_val)
 
-title(sprintf('Polynomial Regression Learning Curve (lambda = #f)', lambda));
-xlabel('Number of training examples')
-ylabel('Error')
-axis([0 13 0 100])
-legend('Train', 'Cross Validation')
+plt.title('Polynomial Regression Learning Curve (lambda = {})'.format(_lambda))
+plt.xlabel('Number of training examples')
+plt.ylabel('Error')
+plt.axis([0, 13, 0, 100])
+plt.legend(['Train', 'Cross Validation'])
 
-fprintf('Polynomial Regression (lambda = #f)\n\n', lambda);
-fprintf('# Training Examples\tTrain Error\tCross Validation Error\n');
-for i = 1:m
-    fprintf('  \t#d\t\t#f\t#f\n', i, error_train(i), error_val(i));
-end
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
-
+print('Polynomial Regression (lambda = {})\n\n'.format(_lambda))
+print('# Training Examples\tTrain Error\tCross Validation Error\n')
+for i in range(m):
+    print('  \t{0}\t\t{1}\t{2}\n'.format(i, error_train[i], error_val[i]))
+          
+    
 ## =========== Part 8: Validation for Selecting Lambda =============
 #  You will now implement validationCurve to test various values of 
 #  lambda on a validation set. You will then use this to select the
 #  "best" lambda value.
 #
 
+'''
 [lambda_vec, error_train, error_val] = ...
     validationCurve(X_poly, y, X_poly_val, yval);
 
@@ -213,6 +212,4 @@ for i = 1:length(lambda_vec)
             lambda_vec(i), error_train(i), error_val(i));
 end
 
-fprintf('Program paused. Press enter to continue.\n');
-pause;
 '''

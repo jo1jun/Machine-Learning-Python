@@ -17,7 +17,8 @@ def trainLinearReg(X, y, _lambda):
     costFunction = lambda t: linearRegCostFunction(X, y, t, _lambda)
 
     # Now, costFunction is a function that takes in only one argument    
-    result = op.minimize(fun=costFunction,x0=initial_theta,method='L-BFGS-B',jac=True,options={'maxiter':15})
+    result = op.minimize(fun=costFunction,x0=initial_theta,method='L-BFGS-B',\
+                         jac=True,options={'maxiter':15})
     #maxiter 를 200 이 아니라 15 번으로 해야 ex5.pdf 에 나와있는 그림처럼 그려진다.
     
     return result.x

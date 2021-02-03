@@ -9,6 +9,7 @@ from learningCurve import learningCurve
 from polyFeatures import polyFeatures
 from featureNormalize import featureNormalize
 from plotFit import plotFit
+from validationCurve import validationCurve
 ## Machine Learning Online Class
 #  Exercise 5 | Regularized Linear Regression and Bias-Variance
 #
@@ -46,11 +47,14 @@ Xtest, ytest = mat['Xtest'], mat['ytest']
 #print(y.shape) #(12,1)
 #print(Xval.shape) #(21,1)
 #print(yval.shape) #(21,1)
+#print(Xtest.shape) #(21,1)
+#print(ytest.shape) #(21,1)
 
 # m = Number of examples
 m = X.shape[0]
 
 # Plot training data
+plt.figure()
 plt.plot(X, y, 'rx', markersize=10, linewidth=1.5)
 plt.xlabel('Change in water level (x)')
 plt.ylabel('Water flowing out of the dam (y)')
@@ -65,7 +69,7 @@ theta = np.array([1,1])
 
 J,_ = linearRegCostFunction(np.insert(X,0,1,axis=1), y, theta, 1)
 
-print('Cost at theta = [1 ; 1]: {} \n(this value should be about 303.993192)\n'.format(J))
+print('Cost at theta = [1  1]: {} \n(this value should be about 303.993192)\n'.format(J))
 
 
 ## =========== Part 3: Regularized Linear Regression Gradient =============
@@ -76,8 +80,8 @@ print('Cost at theta = [1 ; 1]: {} \n(this value should be about 303.993192)\n'.
 theta = np.array([1,1])
 J, grad = linearRegCostFunction(np.insert(X,0,1,axis=1), y, theta, 1)
 
-print('Gradient at theta = [1 ; 1]:  [{0}; {1}] \
-      \n(this value should be about [-15.303016; 598.250744])\n'.format(grad[0], grad[1]))
+print('Gradient at theta = [1  1]:  [{0} {1}] \
+      \n(this value should be about [-15.303016 598.250744])\n'.format(grad[0], grad[1]))
 
 ## =========== Part 4: Train Linear Regression =============
 #  Once you have implemented the cost and gradient correctly, the
@@ -112,8 +116,7 @@ error_train, error_val = \
     learningCurve(np.insert(X,0,1,axis=1), y, np.insert(Xval,0,1,axis=1), yval, _lambda)
 
 plt.figure()
-plt.plot(list(range(m)), error_train)
-plt.plot(list(range(m)), error_val)
+plt.plot(list(range(m)), error_train, list(range(m)), error_val)
 plt.title('Learning curve for linear regression')
 plt.legend(['Train', 'Cross Validation'])
 plt.xlabel('Number of training examples')
@@ -151,7 +154,7 @@ X_poly_val = X_poly_val - mu
 X_poly_val = X_poly_val / sigma
 X_poly_val = np.insert(X_poly_val,0,1,axis=1)   # Add Ones
 
-print('Normalized Training Example 1:\n');
+print('Normalized Training Example 1:\n')
 print('  {}  \n'.format(X_poly[0, :].reshape(-1,1)))
 
 ## =========== Part 7: Learning Curve for Polynomial Regression =============
@@ -161,22 +164,23 @@ print('  {}  \n'.format(X_poly[0, :].reshape(-1,1)))
 #  lambda to see how the fit and learning curve change.
 #
 
-_lambda = 0
+_lambda = 0         #1, 100 으로 바꿔서 그려보자.
+#_lambda = 1
+#_lambda = 100
 theta = trainLinearReg(X_poly, y, _lambda)
 
 # Plot training data and fit
 plt.figure()
 plt.plot(X, y, 'rx', markersize=10, linewidth=1.5)
 plotFit(np.min(X), np.max(X), mu, sigma, theta, p)
-plt.xlabel('Change in water level (x)');
-plt.ylabel('Water flowing out of the dam (y)');
+plt.xlabel('Change in water level (x)')
+plt.ylabel('Water flowing out of the dam (y)')
 plt.title('Polynomial Regression Fit (lambda = {})'.format(_lambda))
 
 plt.figure()
 error_train, error_val = \
     learningCurve(X_poly, y, X_poly_val, yval, _lambda)
-plt.plot(list(range(m)), error_train)
-plt.plot(list(range(m)), error_val)
+plt.plot(list(range(m)), error_train, list(range(m)), error_val)
 
 plt.title('Polynomial Regression Learning Curve (lambda = {})'.format(_lambda))
 plt.xlabel('Number of training examples')
@@ -188,28 +192,71 @@ print('Polynomial Regression (lambda = {})\n\n'.format(_lambda))
 print('# Training Examples\tTrain Error\tCross Validation Error\n')
 for i in range(m):
     print('  \t{0}\t\t{1}\t{2}\n'.format(i, error_train[i], error_val[i]))
-          
-    
+
+
 ## =========== Part 8: Validation for Selecting Lambda =============
 #  You will now implement validationCurve to test various values of 
 #  lambda on a validation set. You will then use this to select the
 #  "best" lambda value.
 #
 
-'''
-[lambda_vec, error_train, error_val] = ...
-    validationCurve(X_poly, y, X_poly_val, yval);
+lambda_vec, error_train, error_val = validationCurve(X_poly, y, X_poly_val, yval)
 
-close all;
-plot(lambda_vec, error_train, lambda_vec, error_val);
-legend('Train', 'Cross Validation');
-xlabel('lambda');
-ylabel('Error');
+plt.figure()
+plt.plot(lambda_vec, error_train, lambda_vec, error_val)
+plt.legend(['Train', 'Cross Validation'])
+plt.xlabel('lambda')
+plt.ylabel('Error')
 
-fprintf('lambda\t\tTrain Error\tValidation Error\n');
-for i = 1:length(lambda_vec)
-	fprintf(' #f\t#f\t#f\n', ...
-            lambda_vec(i), error_train(i), error_val(i));
-end
+print('lambda\t\tTrain Error\tValidation Error\n')
+for i in range(np.size(lambda_vec)):
+	print(' {0}\t{1}\t{2}\n'.format(lambda_vec[i], error_train[i], error_val[i]))
 
-'''
+## =========== Part 9: Computing test set error =============
+#For this optional (ungraded) exercise, you should compute the test error
+#using the best value of λ you found. In our cross validation, we obtained a
+#test error of 3.8599 for λ = 3.
+_lambda = 3
+
+theta = trainLinearReg(X_poly, y, _lambda)
+error_test,_ = linearRegCostFunction(X_poly_test, ytest, theta, 0)
+print('test error for λ = 3.', error_test)
+print('this value should be 3.8599')
+
+## =========== Part 10: Plotting learning curves with randomly selected examples =============
+# Concretely, to determine the training error and cross validation error for
+# i examples, you should first randomly select i examples from the training set
+# and i examples from the cross validation set. You will then learn the parameters θ 
+# using the randomly chosen training set and evaluate the parameters
+# θ on the randomly chosen training set and cross validation set. The above
+# steps should then be repeated multiple times (say 50) and the averaged error
+# should be used to determine the training error and cross validation error for
+# i examples.
+# For this optional (ungraded) exercise, you should implement the above
+# strategy for computing the learning curves. For reference, figure 10 shows the
+# learning curve we obtained for polynomial regression with λ = 0.01. Your
+# figure may differ slightly due to the random selection of examples
+
+_lambda = 0.01
+avg_error_train = np.zeros((m, 1))
+avg_error_val = np.zeros((m, 1))
+for _ in range(50):
+    s = np.arange(X_poly.shape[0])  #index 를 shuffle 하여 y 와 순서를 일치시킨다.
+    np.random.shuffle(s)
+    X_poly = X_poly[s]
+    y = y[s]
+    error_train, error_val = \
+        learningCurve(X_poly, y, X_poly_val, yval, _lambda)
+    avg_error_train += error_train
+    avg_error_val += error_val
+avg_error_train /= 50
+avg_error_val /= 50
+#평균 error 를 사용한다. 보통 50번 반복한 평균.
+    
+plt.figure()
+plt.plot(list(range(m)), avg_error_train, list(range(m)), avg_error_val)
+plt.title('Polynomial Regression Learning Curve (lambda = {})'.format(_lambda))
+plt.xlabel('Number of training examples')
+plt.ylabel('Error')
+plt.axis([0, 13, 0, 100])
+plt.legend(['Train', 'Cross Validation'])

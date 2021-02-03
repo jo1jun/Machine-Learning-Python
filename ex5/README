@@ -10,6 +10,8 @@
 # 이것이 내가 생각한 이유이다.
 
 # trainLinearReg.py 에서 왜 주어진 maxiter 200 이 아니라 15 로 해야 ex5.pdf 에 나와있는 그림이 나올까? 그리고 maxiter 200 으로하면 왜 J_CV 가 다시 치솟는 것일까?
-# data 수가 12 개로 매우 적기도 하고 labmda 가 0이고 반복수가 매우 많으므로 overfitting 이 심하게 일어났다고 볼 수 있다.
+# data 수가 12 개로 매우 적기도 하고 labmda 가 0이고 반복수가 매우 많으므로 overfitting 이 심하게 일어났다고 볼 수 있다
+
+#보통 J_CV 는 50회정도 반복 후 평균값으로 hyperparameter 의 성능을 평가한다.
 
 # 아직 학습단계이기 때문에 위 내용은 수정될 가능성이 있다.

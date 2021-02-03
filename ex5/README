@@ -1,0 +1,15 @@
+# hyperparameter(lambda) 를 선택할 때, 정규화 항이 붙은 J_train 으로 학습 후 정규화 항이 붙지 않은 J_CV 를 활용하는 이유는 무엇인가? 정규화 항을 포함한 J_CV 를 활용하면 안 되나?
+# Deep Learning from Scratch 에서 배웠듯이, classification problem 에서 predict 할 때는 last layer(activation with loss) 를 거치지 않는다. last layer 이전에 나온 결과가
+# activation 을 통과해도 대소관계의 변화는 없고, loss 는 하나의 실수값을 출력하여 이를 척도로 train 하기 위해 사용되는 것이지 predict 하기 위한 것이 아니기 때문이다.
+# 따라서 불필요한 계산을 생략하는 것이다.
+# 따라서 hyperparameter를 선택할 때 학습한 theta로 last layer이전까지 forward한 값으로 predict 해서 예측값을 구하고 실제값과 비교하여 accuracy로 train set과 CV set를 비교했었다.
+# 책 p.225 & https://github.com/jo1jun/Deep-Learning-from-Scratch1/blob/main/ch06/hyperparameter_optimization.py 참고
+
+# 여기서도 같은 맥락으로 J_CV 로 검증할 때 정규화 항을 뗀 것으로 보인다. 다만, linear regression 이기 때문에 logistic regression 과 달리 맞냐 틀리냐가 아니라 근접한 실수값을
+# predict하는 것이라서 accuracy 로 train set 과 CV set 를 비교하지 않고 정규화 항을 뗀 순수한 error 로 비교하는 것 같다. (안 떼어도 큰 차이는 없지만 불필요한 계산이므로..)
+# 이것이 내가 생각한 이유이다.
+
+# trainLinearReg.py 에서 왜 주어진 maxiter 200 이 아니라 15 로 해야 ex5.pdf 에 나와있는 그림이 나올까? 그리고 maxiter 200 으로하면 왜 J_CV 가 다시 치솟는 것일까?
+# data 수가 12 개로 매우 적기도 하고 labmda 가 0이고 반복수가 매우 많으므로 overfitting 이 심하게 일어났다고 볼 수 있다.
+
+# 아직 학습단계이기 때문에 위 내용은 수정될 가능성이 있다.

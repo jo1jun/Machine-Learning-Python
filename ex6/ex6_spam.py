@@ -1,6 +1,12 @@
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
-
+from readFile import readFile
+from processEmail import processEmail
+import sklearn.svm as svm
+import scipy.io
+from emailFeatures import emailFeatures
+from getVocabList import getVocabList
+import numpy as np
 
 ## Machine Learning Online Class
 #  Exercise 6 | Spam Classification with SVMs
@@ -30,12 +36,12 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 print('\nPreprocessing sample email (emailSample1.txt)\n')
 
 # Extract Features
-file_contents = os.read('emailSample1.txt')
+file_contents = readFile('emailSample1.txt')
 word_indices  = processEmail(file_contents)
 
 # Print Stats
 print('Word Indices \n')
-print(' #d', word_indices)
+print(word_indices)
 print('\n\n')
 
 ## ==================== Part 2 Feature Extraction ====================
@@ -51,8 +57,8 @@ word_indices  = processEmail(file_contents)
 features      = emailFeatures(word_indices)
 
 # Print Stats
-print('Length of feature vector #d\n', length(features))
-print('Number of non-zero entries #d\n', sum(features > 0))
+print('Length of feature vector ', len(features), '\n')
+print('Number of non-zero entries ', sum(features > 0), '\n')
 
 ## =========== Part 3 Train Linear SVM for Spam Classification ========
 #  In this section, you will train a linear classifier to determine if an
@@ -60,17 +66,17 @@ print('Number of non-zero entries #d\n', sum(features > 0))
 
 # Load the Spam Email dataset
 # You will have X, y in your environment
-load('spamTrain.mat')
+mat = scipy.io.loadmat('spamTrain.mat')
+X, y = mat['X'], mat['y']
 
 print('\nTraining Linear SVM (Spam Classification)\n')
 print('(this may take 1 to 2 minutes) ...\n')
 
 C = 0.1
-model = svmTrain(X, y, C, @linearKernel)
-
-p = svmPredict(model, X)
-
-print('Training Accuracy #f\n', mean(double(p == y)) * 100)
+classifier = svm.SVC(C=C, kernel='linear', tol=1e-3)
+model = classifier.fit(X, y)
+p = model.predict(X).reshape(-1,1)
+print('Training Accuracy ', np.mean(p == y) * 100, '\n')
 
 ## =================== Part 4 Test Spam Classification ================
 #  After training the classifier, we can evaluate it on a test set. We have
@@ -78,15 +84,15 @@ print('Training Accuracy #f\n', mean(double(p == y)) * 100)
 
 # Load the test dataset
 # You will have Xtest, ytest in your environment
-load('spamTest.mat')
+mat = scipy.io.loadmat('spamTest.mat')
+Xtest, ytest = mat['Xtest'], mat['ytest']
 
 print('\nEvaluating the trained Linear SVM on a test set ...\n')
 
-p = svmPredict(model, Xtest)
+p = model.predict(Xtest).reshape(-1,1)
+ytest = ytest.reshape(-1,1)
 
-print('Test Accuracy #f\n', mean(double(p == ytest)) * 100)
-pause
-
+print('Test Accuracy: ', np.mean(p == ytest) * 100, '\n')
 
 ## ================= Part 5 Top Predictors of Spam ====================
 #  Since the model we are training is a linear SVM, we can inspect the
@@ -97,17 +103,16 @@ pause
 #
 
 # Sort the weights and obtin the vocabulary list
-[weight, idx] = sort(model.w, 'descend')
+weight = model.coef_.flatten()
+weight_reverse = np.sort(weight)[::-1]          #역방향 정렬
+index_reverse = np.argsort(weight)[::-1]        #역방향 정
 vocabList = getVocabList()
+#print(vocabList[a])
 
 print('\nTop predictors of spam \n')
-for i = 115
-    print(' #-15s (#f) \n', vocabList{idx(i)}, weight(i))
-end
 
-print('\n\n')
-print('\nProgram paused. Press enter to continue.\n')
-pause
+for i in range(15):
+    print(' {} ({}) \n'.format(vocabList[index_reverse[i]], weight_reverse[i]))
 
 ## =================== Part 6 Try Your Own Emails =====================
 #  Now that you've trained the spam classifier, you can use it on your own
@@ -120,14 +125,17 @@ pause
 # Set the file to be read in (change this to spamSample2.txt,
 # emailSample1.txt or emailSample2.txt to see different predictions on
 # different emails types). Try your own emails as well!
-filename = 'spamSample1.txt'
+
+filename = 'emailSample2.txt'
+#filename = 'emailSample3.txt' #평소 사용했던 email 을 emailSample3.txt 에 저장해서 실행
+
+# spamSample 은 1, emailSample 은 0으로 잘 분류된다. 직접 작성한 email 을 적용시켜봐도 잘 나온다.
 
 # Read and predict
 file_contents = readFile(filename)
 word_indices  = processEmail(file_contents)
 x             = emailFeatures(word_indices)
-p = svmPredict(model, x)
+p             = model.predict(x.T)
 
-print('\nProcessed #s\n\nSpam Classification #d\n', filename, p)
+print('\nProcessed {}\n\nSpam Classification {}\n'.format(filename, p))
 print('(1 indicates spam, 0 indicates not spam)\n\n')
-

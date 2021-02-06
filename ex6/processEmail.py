@@ -1,3 +1,10 @@
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__))) 
+from getVocabList import getVocabList
+import re # 정규식을 처리하기 위해 import
+from nltk.stem.porter import PorterStemmer # porterStemmer import
+import numpy as np
+
 def processEmail(email_contents):
     #PROCESSEMAIL preprocesses a the body of an email and
     #returns a list of word_indices 
@@ -18,64 +25,65 @@ def processEmail(email_contents):
     # Uncomment the following lines if you are working with raw emails with the
     # full headers
     
-    # hdrstart = strfind(email_contents, ([char(10) char(10)]))
-    # email_contents = email_contents(hdrstart(1):end)
-    
+    # hdrstart = strfind(email_contents, ([char(10) char(10)]));
+    # email_contents = email_contents(hdrstart(1):end);
+     
     # Lower case
-    
-    email_contents = email_contents.lower()
+    email_contents = str.lower(email_contents)
+
+    # regexprep 를 re.sub 로 대체.
+    # renew = re.sub(정규식 표현, 대체할 문자열, source)
+    # reference : https://docs.python.org/3/library/re.html#module-re
     
     # Strip all HTML
     # Looks for any expression that starts with < and ends with > and replace
     # and does not have any < or > in the tag it with a space
-    email_contents = regexprep(email_contents, '<[^<>]+>', ' ')
+    email_contents = re.sub('<[^<>]+>', '', email_contents)
     
     # Handle Numbers
     # Look for one or more characters between 0-9
-    email_contents = regexprep(email_contents, '[0-9]+', 'number')
+    email_contents = re.sub('[0-9]+', 'number', email_contents)
     
     # Handle URLS
     # Look for strings starting with http:// or https://
-    email_contents = regexprep(email_contents, ...
-                               '(http|https)://[^\s]*', 'httpaddr')
+    email_contents = re.sub('(http|https)://[^\s]*', 'httpaddr', email_contents)
     
     # Handle Email Addresses
     # Look for strings with @ in the middle
-    email_contents = regexprep(email_contents, '[^\s]+@[^\s]+', 'emailaddr')
+    email_contents = re.sub('[^\s]+@[^\s]+', 'emailaddr', email_contents)
     
     # Handle $ sign
-    email_contents = regexprep(email_contents, '[$]+', 'dollar')
-    
+    email_contents = re.sub('[$]+', 'dollar', email_contents)
     
     # ========================== Tokenize Email ===========================
     
     # Output the email to screen as well
-    print('\n==== Processed Email ====\n\n')
+    print('==== Processed Email ====')
     
     # Process file
     l = 0
     
-    while ~isempty(email_contents)
+    # Remove any non alphanumeric characters (also get rid of any punctuation)
+    email_contents = re.sub('[^a-zA-Z0-9]', ' ', email_contents)
     
-        # Tokenize and also get rid of any punctuation
-        [str, email_contents] = ...
-           strtok(email_contents, ...
-                  [' @$/#.-:&*+=[]?!(){},''">_<#' char(10) char(13)])
-       
-        # Remove any non alphanumeric characters
-        str = regexprep(str, '[^a-zA-Z0-9]', '')
+    for word in email_contents.split(' '):   
+        word = word.strip()
     
         # Stem the word 
-        # (the porterStemmer sometimes has issues, so we use a try catch block)
-        try str = porterStemmer(strtrim(str)) 
-        catch str = '' continue
-        end
-    
-        # Skip the word if it is too short
-        if length(str) < 1
-           continue
-        end
-    
+        # (the porterStemmer sometimes has issues, so we use a try catch block
+        # 어간 추출 library
+        # reference : https://www.nltk.org/api/nltk.stem.html?highlight=porterstemmer#nltk.stem.porter.PorterStemmer
+        try:
+            stemmer = PorterStemmer()
+            word = stemmer.stem(word)
+        except:
+            word = ''
+            continue        
+        
+        # Skip the word if it is too shor
+        if len(word) < 1:
+            continue
+        
         # Look up the word in the dictionary and add to word_indices if
         # found
         # ====================== YOUR CODE HERE ======================
@@ -89,7 +97,7 @@ def processEmail(email_contents):
         #               look up the vocabulary list to find where in vocabList
         #               'action' appears. For example, if vocabList{18} =
         #               'action', then, you should add 18 to the word_indices 
-        #               vector (e.g., word_indices = [word_indices  18] ).
+        #               vector (e.g., word_indices = [word_indices ; 18]; ).
         # 
         # Note: vocabList{idx} returns a the word with index idx in the
         #       vocabulary list.
@@ -99,28 +107,19 @@ def processEmail(email_contents):
         #
         
     
-    
-        for i = 1:length(vocabList),
-          if strcmp(vocabList{i},str) == 1, # 이거 그냥 = 썼다가 시간 엄청날림.. 주의..
-            strcmp(vocabList{i},str)
-            word_indices = [word_indices  i]
-            break
-          endif
-        endfor
-    
-    
-    
-        # =============================================================
-    
+        for k,v in vocabList.items():
+            if v == word:     
+                word_indices = np.append(word_indices, k)
+                break
     
         # Print to screen, ensuring that the output lines are not too long
-        if (l + length(str) + 1) > 78
-            print('\n')
+        if (l + len(word) + 1) > 78:
+            print()
             l = 0
-        end
-        print('#s ', str)
-        l = l + length(str) + 1
+
+        print(word, end=' ')
+        l = l + len(word) + 1
+                
+    print('\n\n=========================')
     
-    
-    # Print footer
-    print('\n\n=========================\n')
+    return word_indices

@@ -105,9 +105,8 @@ print('Test Accuracy: ', np.mean(p == ytest) * 100, '\n')
 # Sort the weights and obtin the vocabulary list
 weight = model.coef_.flatten()
 weight_reverse = np.sort(weight)[::-1]          #역방향 정렬
-index_reverse = np.argsort(weight)[::-1]        #역방향 정
+index_reverse = np.argsort(weight)[::-1]        #역방향 정렬
 vocabList = getVocabList()
-#print(vocabList[a])
 
 print('\nTop predictors of spam \n')
 
@@ -127,7 +126,7 @@ for i in range(15):
 # different emails types). Try your own emails as well!
 
 filename = 'emailSample2.txt'
-#filename = 'emailSample3.txt' #평소 사용했던 email 을 emailSample3.txt 에 저장해서 실행
+#filename = 'emailSample3.txt' #평소 실제로 사용했던 email 을 emailSample3.txt 에 저장해서 실행
 
 # spamSample 은 1, emailSample 은 0으로 잘 분류된다. 직접 작성한 email 을 적용시켜봐도 잘 나온다.
 

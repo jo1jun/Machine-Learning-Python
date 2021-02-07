@@ -209,7 +209,6 @@ X_norm, mu, sigma = featureNormalize(X)
 U, S = pca(X_norm)
 Z = projectData(X_norm, U, 2)
 
-g = idx[sel]
 # Plot in 2D
 plt.figure()
 plotDataPoints(Z[sel, :], idx[sel], K)

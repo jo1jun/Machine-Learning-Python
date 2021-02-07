@@ -6,7 +6,7 @@ import numpy as np
 from computeCentroids import computeCentroids
 from runkMeans import runkMeans
 #from PIL import Image # for image load # PIL 은 편하지만 uint8 type 의 값만 지원된다. (0~1 값 X)
-import imageio # for image load
+import imageio
 import matplotlib.pyplot as plt
 from kMeansInitCentroids import kMeansInitCentroids
 
@@ -106,10 +106,9 @@ print('\nK-Means Done.\n\n')
 
 print('\nRunning K-Means clustering on pixels from an image.\n\n')
 
-#  Load an image of a bird
-A = imageio.imread('bird_small.png')
-
+# Load an image of a bird
 # reference : https://imageio.readthedocs.io/en/stable/userapi.html
+A = imageio.imread('bird_small.png')
 
 
 # If imread does not work for you, you can try instead
@@ -233,6 +232,6 @@ plt.subplot(1, 2, 2)
 plt.imshow(X_recovered)
 plt.title('Compressed, with {} colors.'.format(K))
 
-imageio.imwrite('compressed_my_image.png', X_recovered)
+imageio.imwrite('compressed_my_image.png', X_recovered.astype(np.uint8))
 # reference : https://imageio.readthedocs.io/en/stable/userapi.html
 # 용량이 확실히 작아졌다.

@@ -22,9 +22,8 @@ def findClosestCentroids(X, centroids):
     #
     # Note: You can use a for-loop over the examples to compute this.
     #
-    
-    m , n = X.shape
-    temp = np.zeros((m,K))
+
+    temp = np.zeros((X.shape[0],K))
 
     for i in range(K):
         temp[:,i] = np.sum(np.square((X - centroids[i,:])), axis = 1)

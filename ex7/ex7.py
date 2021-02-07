@@ -201,7 +201,7 @@ initial_centroids = kMeansInitCentroids(X, K)
 # Run K-Means
 centroids, idx = runkMeans(X, initial_centroids, max_iters)
 
-## ================= Part 5: Image Compression ======================
+## ================= Image Compression ======================
 #  In this part of the exercise, you will use the clusters of K-Means to
 #  compress an image. To do this, we first find the closest clusters for
 #  each example. After that, we 

@@ -27,6 +27,7 @@ def pca(X):
     # reference : https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html?highlight=svd#numpy.linalg.svd
     U, S, V = np.linalg.svd(Sigma)
     
+    
     return U, S
     
     # =========================================================================

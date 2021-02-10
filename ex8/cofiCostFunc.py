@@ -40,10 +40,17 @@ def cofiCostFunc(params, Y, R, num_users, num_movies, num_features, _lambda):
     #                     partial derivatives w.r.t. to each element of Theta
     #
     
+    # R 이 1인 idx 를 찾아서 for 문을 돌려도 되지만 R 을 element wise 곱해서 연산하면
+    # R 이 0인 부분은 0이 되므로 연산해도 0이된다. 즉, 포함되지 않는다. R 이 1인 부분만 연산된다.
     # R 을 element wise 로 곱하여 1인 경우에만 제곱합을 하게끔 한다.
-    J = np.sum(np.square((X @ Theta.T - Y) * R)) / 2
-    X_grad = ((X @ Theta.T - Y) * R) @ Theta
-    Theta_grad = ((X @ Theta.T - Y) * R).T @ X
+    J = (1 / 2) * np.sum(np.square((X @ Theta.T - Y) * R))
+    J_reg = (_lambda / 2) * (np.sum(np.square(Theta)) + np.sum(np.square(X)))
+    J += J_reg
+
+    X_grad = ((X @ Theta.T - Y) * R) @ Theta + _lambda * X
+    Theta_grad = ((X @ Theta.T - Y) * R).T @ X + _lambda * Theta
+    
+    # 위 reg term 의 bias 에 대해서 주석 추가.
     
     # =============================================================
     

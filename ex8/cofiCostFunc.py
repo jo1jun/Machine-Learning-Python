@@ -50,7 +50,8 @@ def cofiCostFunc(params, Y, R, num_users, num_movies, num_features, _lambda):
     X_grad = ((X @ Theta.T - Y) * R) @ Theta + _lambda * X
     Theta_grad = ((X @ Theta.T - Y) * R).T @ X + _lambda * Theta
     
-    # 위 reg term 의 bias 에 대해서 주석 추가.
+    # 위 reg_term 에서 더이상 theta_0, x_0 는 존재하지 않는다.
+    # 이 또한 알고리즘이 필요시 알아서 학습할 것.
     
     # =============================================================
     

@@ -5,6 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cofiCostFunc import cofiCostFunc
 from checkCostFunction import checkCostFunction
+from loadMovieList import loadMovieList
+from normalizeRatings import normalizeRatings
+import scipy.optimize as op
+
 ## Machine Learning Online Class
 #  Exercise 8 | Anomaly Detection and Collaborative Filtering
 #
@@ -115,7 +119,7 @@ print('\nChecking Gradients (with regularization) ... \n')
 checkCostFunction(1.5)
 
 
-'''
+
 ## ============== Part 6: Entering ratings for a new user ===============
 #  Before we will train the collaborative filtering model, we will first
 #  add ratings that correspond to a new user that we just observed. This
@@ -125,37 +129,31 @@ checkCostFunction(1.5)
 movieList = loadMovieList()
 
 #  Initialize my ratings
-my_ratings = zeros(1682, 1)
+my_ratings = np.zeros(1682,int)
 
 # Check the file movie_idx.txt for id of each movie in our dataset
 # For example, Toy Story (1995) has ID 1, so to rate it "4", you can set
-my_ratings(1) = 4
+my_ratings[0] = 4
 
 # Or suppose did not enjoy Silence of the Lambs (1991), you can set
-my_ratings(98) = 2
+my_ratings[97] = 2
 
 # We have selected a few movies we liked / did not like and the ratings we
 # gave are as follows:
-my_ratings(7) = 3
-my_ratings(12)= 5
-my_ratings(54) = 4
-my_ratings(64)= 5
-my_ratings(66)= 3
-my_ratings(69) = 5
-my_ratings(183) = 4
-my_ratings(226) = 5
-my_ratings(355)= 5
+my_ratings[6] = 3
+my_ratings[11]= 5
+my_ratings[53] = 4
+my_ratings[63]= 5
+my_ratings[65]= 3
+my_ratings[68] = 5
+my_ratings[182] = 4
+my_ratings[225] = 5
+my_ratings[354]= 5
 
 print('\n\nNew user ratings:\n')
-for i = 1:length(my_ratings)
-    if my_ratings(i) > 0 
-        print('Rated #d for #s\n', my_ratings(i), ...
-                 movieList{i})
-    end
-end
-
-print('\nProgram paused. Press enter to continue.\n')
-pause
+for i in range(len(my_ratings)):
+    if my_ratings[i] > 0: 
+        print('Rated {} for {}\n'.format(my_ratings[i], movieList[i]))
 
 
 ## ================== Part 7: Learning Movie Ratings ====================
@@ -166,8 +164,8 @@ pause
 print('\nTraining collaborative filtering...\n')
 
 #  Load data
-load('ex8_movies.mat')
-
+mat = scipy.io.loadmat('ex8_movies.mat')
+R, Y = mat['R'], mat['Y']
 #  Y is a 1682x943 matrix, containing ratings (1-5) of 1682 movies by 
 #  943 users
 #
@@ -175,65 +173,56 @@ load('ex8_movies.mat')
 #  rating to movie i
 
 #  Add our own ratings to the data matrix
-Y = [my_ratings Y]
-R = [(my_ratings ~= 0) R]
+Y = np.append(my_ratings.reshape(-1,1), Y, axis=1)
+R = np.append((my_ratings != 0).reshape(-1,1), R, axis=1)
 
 #  Normalize Ratings
-[Ynorm, Ymean] = normalizeRatings(Y, R)
+Ynorm, Ymean = normalizeRatings(Y, R)
 
 #  Useful Values
-num_users = size(Y, 2)
-num_movies = size(Y, 1)
+num_users = Y.shape[1]
+num_movies = Y.shape[0]
 num_features = 10
 
 # Set Initial Parameters (Theta, X)
-X = randn(num_movies, num_features)
-Theta = randn(num_users, num_features)
+X = np.random.randn(num_movies, num_features)
+Theta = np.random.randn(num_users, num_features)
 
-initial_parameters = [X(:) Theta(:)]
+initial_parameters = np.append(X.flatten(), Theta.flatten())
 
-# Set options for fmincg
-options = optimset('GradObj', 'on', 'MaxIter', 100)
+# optimize
+_lambda = 10
+result = op.minimize(fun=cofiCostFunc,x0=initial_parameters,\
+                     args=(Ynorm, R, num_users, num_movies, num_features, _lambda),\
+                         method='L-BFGS-B',jac=True,options={'maxiter':100})
 
-# Set Regularization
-lambda = 10
-theta = fmincg (@(t)(cofiCostFunc(t, Ynorm, R, num_users, num_movies, ...
-                                num_features, lambda)), ...
-                initial_parameters, options)
+theta = result.x
 
 # Unfold the returned theta back into U and W
-X = reshape(theta(1:num_movies*num_features), num_movies, num_features)
-Theta = reshape(theta(num_movies*num_features+1:end), ...
-                num_users, num_features)
+X = np.reshape(theta[:num_movies*num_features], (num_movies, num_features))
+Theta = np.reshape(theta[num_movies*num_features:], (num_users, num_features))
 
 print('Recommender system learning completed.\n')
-
-print('\nProgram paused. Press enter to continue.\n')
-pause
 
 ## ================== Part 8: Recommendation for you ====================
 #  After training the model, you can now make recommendations by computing
 #  the predictions matrix.
 #
 
-p = X * Theta'
-my_predictions = p(:,1) + Ymean
+p = X @ Theta.T
+my_predictions = p[:,0].reshape(-1,1) + Ymean
+my_predictions = my_predictions.flatten()
 
 movieList = loadMovieList()
 
-[r, ix] = sort(my_predictions, 'descend')
+ix = np.argsort(my_predictions)[::-1] # descend sort
+
 print('\nTop recommendations for you:\n')
-for i=1:10
-    j = ix(i)
-    print('Predicting rating #.1f for movie #s\n', my_predictions(j), ...
-            movieList{j})
-end
+for i in range(10):
+    j = ix[i]
+    print('Predicting rating {0:0.1f} for movie {1}\n'.format(my_predictions[j], movieList[j]))
 
 print('\n\nOriginal ratings provided:\n')
-for i = 1:length(my_ratings)
-    if my_ratings(i) > 0 
-        print('Rated #d for #s\n', my_ratings(i), ...
-                 movieList{i})
-    end
-end
-'''
+for i in range(len(my_ratings)):
+    if my_ratings[i] > 0:
+        print('Rated {} for {}\n'.format(my_ratings[i], movieList[i]))

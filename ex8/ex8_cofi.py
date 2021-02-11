@@ -47,11 +47,10 @@ print('Average rating for movie 1 (Toy Story): {} / 5\n\n'\
         .format(np.mean(Y[0, R[0, :]])))
 
 #  We can "visualize" the ratings matrix by plotting it with imagesc
-'''
 plt.imshow(Y)
 plt.ylabel('Movies')
 plt.xlabel('Users')
-'''
+
 
 ## ============ Part 2: Collaborative Filtering Cost Function ===========
 #  You will now implement the cost function for collaborative filtering.
@@ -63,8 +62,6 @@ plt.xlabel('Users')
 mat = scipy.io.loadmat('ex8_movieParams.mat')
 num_features, num_movies, num_users = mat['num_features'], mat['num_movies'], mat['num_users']
 Theta, X = mat['Theta'], mat['X']
-
-
 
 #  Reduce the data set size so that this aruns faster
 num_users = 4
@@ -129,7 +126,7 @@ checkCostFunction(1.5)
 movieList = loadMovieList()
 
 #  Initialize my ratings
-my_ratings = np.zeros(1682,int)
+my_ratings = np.zeros(1682)
 
 # Check the file movie_idx.txt for id of each movie in our dataset
 # For example, Toy Story (1995) has ID 1, so to rate it "4", you can set
@@ -177,6 +174,7 @@ Y = np.append(my_ratings.reshape(-1,1), Y, axis=1)
 R = np.append((my_ratings != 0).reshape(-1,1), R, axis=1)
 
 #  Normalize Ratings
+# Mean Normalization 을 위한 작업.
 Ynorm, Ymean = normalizeRatings(Y, R)
 
 #  Useful Values
@@ -197,6 +195,7 @@ result = op.minimize(fun=cofiCostFunc,x0=initial_parameters,\
                          method='L-BFGS-B',jac=True,options={'maxiter':100})
 
 theta = result.x
+print('cost : ', result.fun)
 
 # Unfold the returned theta back into U and W
 X = np.reshape(theta[:num_movies*num_features], (num_movies, num_features))

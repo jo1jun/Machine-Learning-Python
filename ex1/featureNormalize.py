@@ -1,23 +1,39 @@
 import numpy as np
-
-#FEATURENORMALIZE Normalizes the features in X 
-#   FEATURENORMALIZE(X) returns a normalized version of X where
-#   the mean value of each feature is 0 and the standard deviation
-#   is 1. This is often a good preprocessing step to do when
-#   working with learning algorithms.
-
 def featureNormalize(X):
+    #FEATURENORMALIZE Normalizes the features in X 
+    #   FEATURENORMALIZE(X) returns a normalized version of X where
+    #   the mean value of each feature is 0 and the standard deviation
+    #   is 1. This is often a good preprocessing step to do when
+    #   working with learning algorithms.'
 
     # You need to set these values correctly
     X_norm = X
-    mu = np.zeros((1, X.shape[1]))
-    sigma = np.zeros((1, X.shape[1]))    
+    mu = np.zeros(X.shape[1])
+    sigma = np.zeros(X.shape[1])
 
-    mu = np.mean(X,axis=0).reshape(1,X.shape[1])        #axis = 0 -> shape[0](row(행)) 에 해당하는 모든 원소들
-    sigma = np.std(X,axis=0).reshape(1,X.shape[1])      #broadcast 하기 위해 reshape
+    # ====================== YOUR CODE HERE ======================
+    # Instructions: First, for each feature dimension, compute the mean
+    #               of the feature and subtract it from the dataset,
+    #               storing the mean value in mu. Next, compute the 
+    #               standard deviation of each feature and divide
+    #               each feature by it's standard deviation, storing
+    #               the standard deviation in sigma. 
+    #
+    #               Note that X is a matrix where each column is a 
+    #               feature and each row is an example. You need 
+    #               to perform the normalization separately for 
+    #               each feature. 
+    #
+    # Hint: You might find the 'mean' and 'std' functions useful.
+    #    
+
+    mu = np.mean(X,axis=0).reshape(X.shape[1])
+    sigma = np.std(X,axis=0).reshape(X.shape[1])
 
     #broadcast 로 한번에.            
     X_norm -= mu
     X_norm /= sigma
             
     return X, mu, sigma
+
+    # ============================================================

@@ -53,7 +53,7 @@ for i in range(10):
     print('x = ',X[i,:], ' y = ',y[i])
 
 # Scale features and set them to zero mean
-print('Normalizing Features ...\n');
+print('Normalizing Features ...\n')
 
 X, mu, sigma = featureNormalize(X)
 
@@ -62,24 +62,25 @@ X = np.append(np.ones((m,1)), X, axis = 1) # Add a column of ones to x
 
 ## ================ Part 2: Gradient Descent ================
 
-print('Running gradient descent ...\n');
+print('Running gradient descent ...\n')
 
 # Choose some alpha value
-alpha = 0.01;
-num_iters = 400;
+alpha = 0.01
+num_iters = 400
 
 # Init Theta and Run Gradient Descent 
-theta = np.zeros((3, 1));
-theta, J_history = gradientDescentMulti(X, y, theta, alpha, num_iters);
+theta = np.zeros((3, 1))
+theta, J_history = gradientDescentMulti(X, y, theta, alpha, num_iters)
 
 # Plot the convergence graph
-
-plt.plot(range(num_iters), J_history)
-plt.xlabel('Number of iterations');
-plt.ylabel('Cost J');
+plt.figure()
+plt.plot(range(num_iters), J_history, label='learning rate(alpha) = 0.01')
+plt.xlabel('Number of iterations')
+plt.ylabel('Cost J')
+plt.legend()
 
 # Display gradient descent's result
-print('Theta computed from gradient descent: \n');
+print('Theta computed from gradient descent: \n')
 print(theta, '\n')
 
 # Estimate the price of a 1650 sq-ft, 3 br house
@@ -92,29 +93,31 @@ price = 0 # You should change this
 plt.figure()
 theta = np.zeros((3,1))
 theta, J1 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J1[0:50], 'b')
+plt.plot(range(50), J1[0:50], 'b', label='0.01')
 alpha = 0.03
 theta = np.zeros((3,1))
 theta, J2 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J2[0:50], 'r')
+plt.plot(range(50), J2[0:50], 'r', label='0.03')
 alpha = 0.1
 theta = np.zeros((3,1))
 theta, J3 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J3[0:50], 'k')
+plt.plot(range(50), J3[0:50], 'k', label='0.1')
 alpha = 0.3
 theta = np.zeros((3,1))
 theta, J4 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J4[0:50], 'c')
+plt.plot(range(50), J4[0:50], 'c', label='0.3')
 alpha = 1
 theta, J5 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-plt.plot(range(50), J5[0:50], 'g')
-# 여기서 alpha 를 다시 3배하면 J 가 발산한다. 
-#alpha = 3
-#theta = np.zeros((3,1))
-#theta, J6 = gradientDescentMulti(X, y, theta, alpha, num_iters)
-#plt.plot(range(50), J6[0:50], 'y')
-
-price = np.dot(np.array([1 ,(1650-mu[0,0])/sigma[0,0], (3-mu[0,1])/sigma[0,1]]), theta);
+plt.plot(range(50), J5[0:50], 'g', label='1')
+# #여기서 alpha 를 다시 3배하면 J 가 발산한다. 
+# alpha = 3
+# theta = np.zeros((3,1))
+# theta, J6 = gradientDescentMulti(X, y, theta, alpha, num_iters)
+# plt.plot(range(50), J6[0:50], 'y', label='3')
+plt.xlabel('Number of iterations')
+plt.ylabel('Cost J')
+plt.legend()
+price = np.dot(np.array([1 ,(1650-mu[0])/sigma[0], (3-mu[1])/sigma[1]]), theta)
 
 # ============================================================
 
@@ -122,11 +125,11 @@ print('Predicted price of a 1650 sq-ft, 3 br house (using gradient descent):\n '
 
 ## ================ Part 3: Normal Equations ================
 
-print('Solving with normal equations...\n');
+print('Solving with normal equations...\n')
 
 ## Load Data
 data = load('ex1data2.txt')
-X = data[:,0:2]
+X = data[:, :2]
 y = data[:, 2]
 y = y[:,np.newaxis]
 m = y.shape[0]
@@ -135,11 +138,11 @@ m = y.shape[0]
 X = np.append(np.ones((m,1)), X, axis = 1) # Add a column of ones to x
 
 # Calculate the parameters from the normal equation
-theta = normalEqn(X, y);
+theta = normalEqn(X, y)
 
 # Display normal equation's result
-print('Theta computed from the normal equations: \n');
-print(theta, '\n');
+print('Theta computed from the normal equations: \n')
+print(theta, '\n')
 
 
 # Estimate the price of a 1650 sq-ft, 3 br house

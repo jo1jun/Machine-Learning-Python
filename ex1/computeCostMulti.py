@@ -1,5 +1,3 @@
-import numpy as np
-
 def computeCostMulti(X, y, theta):
     
     m = y.shape[0]

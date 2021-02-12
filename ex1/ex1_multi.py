@@ -1,6 +1,3 @@
-## Machine Learning Online Class
-#  Exercise 1: Linear regression with multiple variables
-
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 import numpy as np
@@ -10,6 +7,34 @@ from featureNormalize import featureNormalize
 from gradientDescentMulti import gradientDescentMulti
 from normalEqn import normalEqn
 
+## Machine Learning Online Class
+#  Exercise 1: Linear regression with multiple variables
+#
+#  Instructions
+#  ------------
+# 
+#  This file contains code that helps you get started on the
+#  linear regression exercise. 
+#
+#  You will need to complete the following functions in this 
+#  exericse:
+#
+#     warmUpExercise.m
+#     plotData.m
+#     gradientDescent.m
+#     computeCost.m
+#     gradientDescentMulti.m
+#     computeCostMulti.m
+#     featureNormalize.m
+#     normalEqn.m
+#
+#  For this part of the exercise, you will need to change some
+#  parts of the code below for various experiments (e.g., changing
+#  learning rates).
+#
+
+## Initialization
+
 ## ================ Part 1: Feature Normalization ================
 
 print('Loading data ...\n')
@@ -18,7 +43,7 @@ print('Loading data ...\n')
 data = load('ex1data2.txt')
 X = data[:, 0:2]
 y = np.array(data[:, 2])
-y = y[:,np.newaxis]                 #y 를 1차원 tuple 에서 2차원 배열로 (m,) -> (m,1)
+y = y[:,np.newaxis]
 m = y.shape[0]
 
 # Print out some data points
@@ -126,5 +151,3 @@ price = [1, 1650, 3] @ theta
 # ============================================================
 
 print('Predicted price of a 1650 sq-ft, 3 br house (using normal equations) : ', price)
-
-

@@ -50,11 +50,7 @@ def oneVsAll(X, y, num_labels, _lambda):
     #     [theta] = ...
     #         fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), ...
     #                 initial_theta, options);
-    #fmincg는 fminunc와 유사하게 작동하지만 많은 수의 매개 변수를 처리하는 데 더 효율적입니다.
-    # y 는 1 또는 0 이 아닌 정수값. (10개의 class 이므로 1 ~ 10)
-    # 따라서 logistic regression 의 cost function 을 사용하기 위해서 10번 반복 (lrCostFunction 이 0 또는 1 의 label 을 처리하기 때문)
-    # 해당 class 정수가 맞으면 1 아니면 0 으로 변환해서 advanced optimizer 에 넘겨줌.
-    
+
     #  octave 의 fmincg 대신, python 에서 동작하는 프레임 워크(scipy.optimize.minimize)를 활용
     #  reference : https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize
     #입출력 theta 는 반드시 평탄화가 되어있어야 한다.

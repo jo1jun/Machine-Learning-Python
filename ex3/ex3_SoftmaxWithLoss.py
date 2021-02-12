@@ -28,7 +28,7 @@ theta = trainSoftmaxWithLoss(X, y, num_labels, _lambda)
 pred = predictSoftmaxWithLoss(theta, X)
 pred = pred[:,np.newaxis]   #y 와 동일한 shape 으로 변형.
 
-print('\nTraining Set Accuracy: ', np.mean(pred == y-1) * 100,'\n') # index&class number 보정을 위해 y - 1
+print('\nTraining Set Accuracy: ', np.mean(pred == y) * 100,'\n')
 
 #wow!! 매우 빠르다!! accuracy(97) 도 좋고!!
 #maxiter 을 500 으로 하면 정확도가 98.84 까지 나온다. (그러나 test set 으로 predict 하지 않음 검증이 필요)

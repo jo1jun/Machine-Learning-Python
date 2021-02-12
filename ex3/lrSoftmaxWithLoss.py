@@ -1,5 +1,4 @@
 import numpy as np
-
 from functions import softmax, cross_entropy_error
 
 def lrSoftmaxWithLoss(theta, X, y, _lambda):

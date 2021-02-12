@@ -41,11 +41,6 @@ print('Loading and Visualizing Data ...\n')
 #MATLAB 파일 읽기
 mat = scipy.io.loadmat('ex3data1.mat') # training data stored in arrays X, y
 X, y = mat['X'], mat['y']
-#print(X.shape)
-#print(y.shape)
-
-print("'y' shape: ", mat['y'].shape, "Unique elements in y: " ,np.unique(mat['y']))
-print("'X' shape: ",X.shape,"X[0] shape: ",X[0].shape)
 
 m = X.shape[0]
 

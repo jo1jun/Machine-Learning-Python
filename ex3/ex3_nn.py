@@ -1,13 +1,14 @@
-## Machine Learning Online Class - Exercise 3 | Part 2: Neural Networks
-
-#  Instructions
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 import numpy as np
+import matplotlib.pyplot as plt
 import scipy.io
 from displayData import displayData
-from predict import predict
-import matplotlib.pyplot as plt
+from predict_nn import predict
+
+## Machine Learning Online Class - Exercise 3 | Part 2: Neural Networks
+
+#  Instructions
 #  ------------
 # 
 #  This file contains code that helps you get started on the
@@ -27,7 +28,7 @@ import matplotlib.pyplot as plt
 input_layer_size  = 400  # 20x20 Input Images of Digits
 hidden_layer_size = 25   # 25 hidden units
 num_labels = 10          # 10 labels, from 1 to 10   
-                          # (note that we have mapped "0" to label 10)
+                         # (note that we have mapped "0" to label 10)
 
 ## =========== Part 1: Loading and Visualizing Data =============
 #  We start the exercise by first loading and visualizing the dataset. 
@@ -38,14 +39,8 @@ num_labels = 10          # 10 labels, from 1 to 10
 print('Loading and Visualizing Data ...\n')
 
 #MATLAB 파일 읽기
-mat_Xy = scipy.io.loadmat('ex3data1.mat') # training data stored in arrays X, y
-X, y = mat_Xy['X'], mat_Xy['y']
-
-#print(X.shape)
-#print(y.shape)
-
-print("'y' shape: ", mat_Xy['y'].shape, "Unique elements in y: " ,np.unique(mat_Xy['y']))
-print("'X' shape: ",X.shape,"X[0] shape: ",X[0].shape)
+mat = scipy.io.loadmat('ex3data1.mat') # training data stored in arrays X, y
+X, y = mat['X'], mat['y']
 
 m = X.shape[0]
 
@@ -62,10 +57,10 @@ displayData(sel)
 print('\nLoading Saved Neural Network Parameters ...\n')
 
 # Load the weights into variables Theta1 and Theta2
-mat_Theta = scipy.io.loadmat('ex3weights.mat')
+mat = scipy.io.loadmat('ex3weights.mat')
 
-Theta1 = mat_Theta['Theta1']
-Theta2 = mat_Theta['Theta2']
+Theta1 = mat['Theta1']
+Theta2 = mat['Theta2']
 
 print('Theta1.shape : ', Theta1.shape)
 print('Theta2.shape : ', Theta2.shape)
@@ -77,8 +72,6 @@ print('Theta2.shape : ', Theta2.shape)
 
 pred = predict(Theta1, Theta2, X)
 pred = pred.reshape(-1,1)
-#print(pred.shape)
-#print(y.shape)
 
 print('\nTraining Set Accuracy: ', np.mean(pred==y) * 100, '\n')
 

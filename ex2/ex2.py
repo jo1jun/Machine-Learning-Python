@@ -1,4 +1,3 @@
-## Machine Learning Online Class - Exercise 2: Logistic Regression
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 from load import load
@@ -9,6 +8,23 @@ from costFunction import costFunction
 from plotDecisionBoundary import plotDecisionBoundary
 from sigmoid import sigmoid
 from predict import predict
+## Machine Learning Online Class - Exercise 2: Logistic Regression
+#
+#  Instructions
+#  ------------
+# 
+#  This file contains code that helps you get started on the logistic
+#  regression exercise. You will need to complete the following functions 
+#  in this exericse:
+#
+#     sigmoid.m
+#     costFunction.m
+#     predict.m
+#     costFunctionReg.m
+#
+#  For this exercise, you will not need to change any code in this file,
+#  or any other files other than those mentioned above.
+#
 
 ## Load Data
 #  The first two columns contains the exam scores and the third column
@@ -28,7 +44,6 @@ plotData(X, y)
 plt.legend(['Admitted','Not admitted'])
 plt.xlabel('Exam 1 score')
 plt.ylabel('Exam 2 score')
-plt.show()
 
 ## ============ Part 2: Compute Cost and Gradient ============
 #  In this part of the exercise, you will implement the cost and gradient
@@ -94,7 +109,6 @@ theta = np.array([[-25.161272],[0.206233],[0.201470]])  #   fminuc 으로 학습
 plotDecisionBoundary(theta, X, y)
 plt.xlabel('Exam 1 score')
 plt.ylabel('Exam 2 score')
-plt.show()
 
 ## ============== Part 4: Predict and Accuracies ==============
 #  After learning the parameters, you'll like to use it to predict the outcomes

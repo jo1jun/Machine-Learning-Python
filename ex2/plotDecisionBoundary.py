@@ -14,7 +14,6 @@ def plotDecisionBoundary(theta, X, y):
     #   2) MxN, N>3 matrix, where the first column is all-ones
     
     # Plot Data
-    plt.figure()
     plotData(X[:,1:3], y)
     
     if X.shape[1] <= 3:
@@ -44,6 +43,4 @@ def plotDecisionBoundary(theta, X, y):
     
         # Plot z = 0
         # Notice you need to specify the range [0, 0]
-        plt.contour(u, v, z, 0,linewidths=2)    #중간에 0 은 등고선(line) 을 하나만 그리겠다는 의미. (n+1)
-        
-
+        plt.contour(u, v, z, 0, linewidths=2)    #중간에 0 은 등고선(line) 을 하나만 그리겠다는 의미. (n+1)

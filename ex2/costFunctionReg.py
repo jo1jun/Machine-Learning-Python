@@ -35,7 +35,7 @@ def costFunctionReg(theta, X, y, _lambda):
 
     grad[1:] += g_regterm[1:]   #theta_0 는 regularization term 에 포함 x
     
-    grad = grad.flatten()              #optimizer 을 사용하기 위해 평탄화.
+    grad = grad.flatten()       #optimizer 을 사용하기 위해 평탄화.
 
     return J,grad
 

@@ -25,8 +25,6 @@ plt.ylabel('Microchip Test 2')
 
 # Specified in plot order
 plt.legend(['y = 1', 'y = 0'])
-plt.show()
-
 
 ## =========== Part 1: Regularized Logistic Regression ============
 #  In this part, you are given a dataset with data points that are not
@@ -53,7 +51,7 @@ _lambda = 1
 
 # Compute and display initial cost and gradient for regularized logistic
 # regression
-[cost, grad] = costFunctionReg(initial_theta, X, y, _lambda)
+cost, grad = costFunctionReg(initial_theta, X, y, _lambda)
 
 print('Cost at initial theta (zeros): ', cost, '\n')
 print('Expected cost (approx): 0.693\n')
@@ -66,7 +64,7 @@ print(' 0.0085\n 0.0188\n 0.0001\n 0.0503\n 0.0115\n')
 # Compute and display cost and gradient
 # with all-ones theta and lambda = 10
 test_theta = np.ones(X.shape[1])
-[cost, grad] = costFunctionReg(test_theta, X, y, 10)
+cost, grad = costFunctionReg(test_theta, X, y, 10)
 
 print('\nCost at test theta (with lambda = 10): ', cost, '\n')
 print('Expected cost (approx): 3.16\n')
@@ -134,7 +132,6 @@ plt.title('lambda = 0')
 # Labels and Legend
 plt.xlabel('Microchip Test 1')
 plt.ylabel('Microchip Test 2')
-
 plt.legend(['y = 1', 'y = 0', 'Decision boundary'])
 
 # Compute accuracy on our training set
@@ -153,7 +150,6 @@ plt.title('lambda = 100')
 # Labels and Legend
 plt.xlabel('Microchip Test 1')
 plt.ylabel('Microchip Test 2')
-
 plt.legend(['y = 1', 'y = 0', 'Decision boundary'])
 
 # Compute accuracy on our training set

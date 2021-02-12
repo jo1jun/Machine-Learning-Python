@@ -30,13 +30,11 @@ def costFunction(theta, X, y):
     
     h = sigmoid(X @ theta)
     
-    dummy = 1e-7    #log 안에 0 값을 방지 (없어도 정상적인 값이 나오지만 runtimeWarning 뜨는게 거슬려서 추가.)
-    
-    J = -(y.T @ np.log(h + dummy) + (1 - y).T @ np.log(1 - h + dummy)) / m
+    J = -(y.T @ np.log(h) + (1 - y).T @ np.log(1 - h)) / m
 
     grad = X.T @ (h - y) / m
     
-    grad = grad.flatten()
+    grad = grad.flatten()           #optimizer 을 사용하기 위해 평탄화.
     
     return J, grad
     

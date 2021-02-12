@@ -58,7 +58,7 @@ print('\nLoading Saved Neural Network Parameters ...\n')
 
 # Load the weights into variables Theta1 and Theta2
 mat = scipy.io.loadmat('ex3weights.mat')
-
+# 우선은 이미 학습된 Theta 들을 가져와서 forward 만 해볼 것이다.
 Theta1 = mat['Theta1']
 Theta2 = mat['Theta2']
 

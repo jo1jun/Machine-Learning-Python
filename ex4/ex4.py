@@ -1,6 +1,7 @@
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__))) 
 import numpy as np
+import matplotlib.pyplot as plt
 import scipy.io
 from displayData import displayData
 from nnCostFunction import nnCostFunction
@@ -46,15 +47,13 @@ X, y = mat['X'], mat['y']
 #print(X.shape)
 #print(y.shape)
 
-print("'y' shape: ", mat['y'].shape, "Unique elements in y: " ,np.unique(mat['y']))
-print("'X' shape: ",X.shape,"X[0] shape: ",X[0].shape)
-
 m = X.shape[0]
 
 # Randomly select 100 data points to display
 rand_indices = np.random.choice(m,100,replace=False)    #비복원 추출
 sel = X[rand_indices, :]
 
+plt.figure()
 displayData(sel)
 
 ## ================ Part 2: Loading Parameters ================
@@ -64,10 +63,10 @@ displayData(sel)
 print('\nLoading Saved Neural Network Parameters ...\n')
 
 # Load the weights into variables Theta1 and Theta2
-mat_Theta = scipy.io.loadmat('ex4weights.mat')
+mat = scipy.io.loadmat('ex4weights.mat')
 
-Theta1 = mat_Theta['Theta1']
-Theta2 = mat_Theta['Theta2']
+Theta1 = mat['Theta1']
+Theta2 = mat['Theta2']
 
 print('Theta1.shape : ', Theta1.shape)
 print('Theta2.shape : ', Theta2.shape)
@@ -207,6 +206,7 @@ Theta2 = Theta2.reshape(num_labels, -1)
 
 print('\nVisualizing Neural Network... \n')
 
+plt.figure()
 displayData(Theta1[:,1:])
 
 ## ================= Part 10: Implement Predict =================

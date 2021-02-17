@@ -57,4 +57,4 @@ def displayData(X):
     # Do not show axis
     plt.axis('off')
 
-    
+    return h, display_array

@@ -142,7 +142,7 @@ X_poly = polyFeatures(X, p)
 X_poly, mu, sigma = featureNormalize(X_poly)   # Normalize
 X_poly = np.insert(X_poly,0,1,axis=1)          # Add Ones
 
-# Map X_poly_test and normalize (using mu and sigma)
+# Map X_poly_test and normalize (using mu and sigma)    # train set 의 mu 와 sigma 를 이용하여 mapping 한다.
 X_poly_test = polyFeatures(Xtest, p)
 X_poly_test = X_poly_test - mu
 X_poly_test = X_poly_test / sigma
@@ -203,6 +203,7 @@ for i in range(m):
 lambda_vec, error_train, error_val = validationCurve(X_poly, y, X_poly_val, yval)
 
 plt.figure()
+plt.title('validation Curve')
 plt.plot(lambda_vec, error_train, lambda_vec, error_val)
 plt.legend(['Train', 'Cross Validation'])
 plt.xlabel('lambda')
@@ -216,7 +217,8 @@ for i in range(np.size(lambda_vec)):
 #For this optional (ungraded) exercise, you should compute the test error
 #using the best value of λ you found. In our cross validation, we obtained a
 #test error of 3.8599 for λ = 3.
-_lambda = 3
+_lambda = lambda_vec[np.argmin(error_val)]
+print('best lambda : ', _lambda)
 
 theta = trainLinearReg(X_poly, y, _lambda)
 error_test,_ = linearRegCostFunction(X_poly_test, ytest, theta, 0)
@@ -251,7 +253,8 @@ for _ in range(50):
     avg_error_val += error_val
 avg_error_train /= 50
 avg_error_val /= 50
-#평균 error 를 사용한다. 보통 50번 반복한 평균.
+# traing set 가 적은 경우 learning curve 를 그릴 때,
+# 랜덤 선택 후 평균 error 를 사용한다. 보통 50번 반복한 평균.
     
 plt.figure()
 plt.plot(list(range(m)), avg_error_train, list(range(m)), avg_error_val)

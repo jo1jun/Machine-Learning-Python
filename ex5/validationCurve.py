@@ -43,9 +43,9 @@ def validationCurve(X, y, Xval, yval):
     #학습으로 구한 theta, reg term 을 뺀 J로 train set error, CV set error 구한다. 
     for i in range(np.size(lambda_vec)):
         _lambda = lambda_vec[i]
-        theta = trainLinearReg(X,y,_lambda)
-        error_train[i],_ = linearRegCostFunction(X,y,theta,0)
-        error_val[i],_ = linearRegCostFunction(Xval,yval,theta,0)
+        theta = trainLinearReg(X,y,_lambda)                         # (+reg)
+        error_train[i],_ = linearRegCostFunction(X,y,theta,0)       # (-reg)
+        error_val[i],_ = linearRegCostFunction(Xval,yval,theta,0)   # (-reg)
     
     return lambda_vec, error_train, error_val
     

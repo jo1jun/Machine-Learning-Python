@@ -18,3 +18,4 @@
     # hidden layer에 [12, 12] 이 적제되고 output layer에 [48] 가 적제된다. backprop 하면 (y = 40) 각각 (h-y) 즉, 8이 역전파 되고 theta2에 [96, 96]씩 동일한 값이 갱신
     # theta1 에는 [16, 16] 가 역전파 되고 theta1에 [16, 32, 64]씩 갱신된다. x 가 여러개 입력되면 theta1 의 grad 는 각 열마다 동일한 값으로 갱신된다.
     # 따라서 전부 동일한 값으로 초기화 하면 모든 각 layer 마다의 가중치가 동일하게 갱신되어 동일한 값이 되므로 layer 을 길고 넓게 하는 의미가 없어짐.
+    # initalize_with_same_value.py 에 두개의 x 에 대해서 grad 를 간단히 구해보았다.

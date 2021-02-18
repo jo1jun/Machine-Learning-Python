@@ -4,7 +4,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 from load import load
 import numpy as np
 import matplotlib.pyplot as plt
-from plotData import plotData
+from plotData_ex2 import plotData
 from mapFeature import mapFeature
 from costFunctionReg import costFunctionReg
 from plotDecisionBoundary import plotDecisionBoundary
@@ -35,6 +35,7 @@ plt.legend(['y = 1', 'y = 0'])
 #  polynomial features to our data matrix (similar to polynomial
 #  regression).
 #
+print('==================== Part 1: Regularized Logistic Regression ====================')
 
 # Add Polynomial Features
 
@@ -84,6 +85,8 @@ print(' 0.3460\n 0.1614\n 0.1948\n 0.2269\n 0.0922\n')
 #  How does the decision boundary change when you vary lambda? How does
 #  the training set accuracy vary?
 #
+print('==================== Part 2: Regularization and Accuracies ====================')
+
 
 # Initialize fitting parameters
 initial_theta = np.zeros(X.shape[1])

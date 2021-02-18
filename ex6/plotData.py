@@ -9,8 +9,6 @@ def plotData(X, y):
     # Note This was slightly modified such that it expects y = 1 or y = 0
     
     # Find Indices of Positive and Negative Examples
-    
-    
     pos = np.where(y.flatten()==1)
     neg = np.where(y.flatten()==0)
     

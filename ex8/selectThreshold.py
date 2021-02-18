@@ -39,9 +39,13 @@ def selectThreshold(yval, pval):
         # predict nonanomaly & actual anomaly
         fn = sum((predictions == 0) & (yval == 1))
 
-        prec = tp / (tp + fp)
-        rec = tp / (tp + fn)
-        F1 = 2 * prec * rec / (prec + rec)
+        # RuntimeWarning: invalid value encountered in true_divide
+        # 0으로 나누는 것을 방지하기 위해 dummy 를 분모에 더해준다.
+        dummy = 1e-7
+
+        prec = tp / (tp + fp + dummy)
+        rec = tp / (tp + fn + dummy)
+        F1 = 2 * prec * rec / (prec + rec + dummy)
         # =============================================================
         
         if F1 > bestF1:

@@ -1,4 +1,4 @@
-from plotData import plotData
+from plotData_ex2 import plotData
 import matplotlib.pyplot as plt
 import numpy as np
 from mapFeature import mapFeature

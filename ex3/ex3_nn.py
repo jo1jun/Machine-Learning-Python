@@ -34,7 +34,7 @@ num_labels = 10          # 10 labels, from 1 to 10
 #  We start the exercise by first loading and visualizing the dataset. 
 #  You will be working with a dataset that contains handwritten digits.
 #
-
+print('=========== Part 1: Loading and Visualizing Data =============')
 # Load Training Data
 print('Loading and Visualizing Data ...\n')
 
@@ -53,6 +53,7 @@ displayData(sel)
 ## ================ Part 2: Loading Pameters ================
 # In this part of the exercise, we load some pre-initialized 
 # neural network parameters.
+print('=========== Part 2: Loading Pameters =============')
 
 print('\nLoading Saved Neural Network Parameters ...\n')
 
@@ -69,6 +70,7 @@ print('Theta2.shape : ', Theta2.shape)
 #  the labels. You will now implement the "predict" function to use the
 #  neural network to predict the labels of the training set. This lets
 #  you compute the training set accuracy.
+print('=========== Part 3: Implement Predict =============')
 
 pred = predict(Theta1, Theta2, X)
 pred = pred.reshape(-1,1)

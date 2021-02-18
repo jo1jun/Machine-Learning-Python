@@ -22,6 +22,6 @@ def visualizeBoundary(X, y, model):
        vals[:, i] = model.predict(this_X)
        
     # Plot the SVM boundary
-    plt.contour(X1, X2, vals, 0, colors='b')
+    plt.contour(X1, X2, vals, colors='b')
 
     

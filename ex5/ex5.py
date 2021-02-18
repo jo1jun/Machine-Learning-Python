@@ -32,7 +32,7 @@ from validationCurve import validationCurve
 #  The following code will load the dataset into your environment and plot
 #  the data.
 #
-
+print('=========== Part 1: Loading and Visualizing Data =============')
 # Load Training Data
 print('Loading and Visualizing Data ...\n')
 
@@ -64,7 +64,7 @@ plt.ylabel('Water flowing out of the dam (y)')
 #  You should now implement the cost function for regularized linear 
 #  regression. 
 #
-
+print('=========== Part 2: Regularized Linear Regression Cost =============')
 theta = np.array([1,1])
 
 J,_ = linearRegCostFunction(np.insert(X,0,1,axis=1), y, theta, 1)
@@ -76,7 +76,7 @@ print('Cost at theta = [1  1]: {} \n(this value should be about 303.993192)\n'.f
 #  You should now implement the gradient for regularized linear 
 #  regression.
 #
-
+print('=========== Part 3: Regularized Linear Regression Gradient =============')
 theta = np.array([1,1])
 J, grad = linearRegCostFunction(np.insert(X,0,1,axis=1), y, theta, 1)
 
@@ -91,7 +91,7 @@ print('Gradient at theta = [1  1]:  [{0} {1}] \
 #  Write Up Note: The data is non-linear, so this will not give a great 
 #                 fit.
 #
-
+print('=========== Part 4: Train Linear Regression =============')
 #  Train linear regression with lambda = 0
 _lambda = 0
 theta = trainLinearReg(np.insert(X,0,1,axis=1), y, _lambda)
@@ -111,7 +111,7 @@ plt.plot(X, np.insert(X,0,1,axis=1) @ theta, '--', 'LineWidth', 2)
 #  Write Up Note: Since the model is underfitting the data, we expect to
 #                 see a graph with "high bias" -- Figure 3 in ex5.pdf 
 #
-
+print('=========== Part 5: Learning Curve for Linear Regression =============')
 error_train, error_val = \
     learningCurve(np.insert(X,0,1,axis=1), y, np.insert(Xval,0,1,axis=1), yval, _lambda)
 
@@ -132,7 +132,7 @@ for i in range(m):
 #  One solution to this is to use polynomial regression. You should now
 #  complete polyFeatures to map each example into its powers
 #
-
+print('=========== Part 6: Feature Mapping for Polynomial Regression =============')
 p = 8
 
 #octave 의 bsxfun 은 numpy 의 broadcast 이다. numpy 개발자분들 thank you!!!
@@ -163,7 +163,7 @@ print('  {}  \n'.format(X_poly[0, :].reshape(-1,1)))
 #  lambda = 0. You should try running the code with different values of
 #  lambda to see how the fit and learning curve change.
 #
-
+print('=========== Part 7: Learning Curve for Polynomial Regression =============')
 _lambda = 0         #1, 100 으로 바꿔서 그려보자.
 #_lambda = 1
 #_lambda = 100
@@ -199,7 +199,7 @@ for i in range(m):
 #  lambda on a validation set. You will then use this to select the
 #  "best" lambda value.
 #
-
+print('=========== Part 8: Validation for Selecting Lambda =============')
 lambda_vec, error_train, error_val = validationCurve(X_poly, y, X_poly_val, yval)
 
 plt.figure()
@@ -217,6 +217,8 @@ for i in range(np.size(lambda_vec)):
 #For this optional (ungraded) exercise, you should compute the test error
 #using the best value of λ you found. In our cross validation, we obtained a
 #test error of 3.8599 for λ = 3.
+print('=========== Part 9: Computing test set error =============')
+
 _lambda = lambda_vec[np.argmin(error_val)]
 print('best lambda : ', _lambda)
 
@@ -238,6 +240,7 @@ print('this value should be 3.8599')
 # strategy for computing the learning curves. For reference, figure 10 shows the
 # learning curve we obtained for polynomial regression with λ = 0.01. Your
 # figure may differ slightly due to the random selection of examples
+print('=========== Part 10: Plotting learning curves with randomly selected examples =============')
 
 _lambda = 0.01
 avg_error_train = np.zeros((m, 1))

@@ -30,7 +30,11 @@ def costFunction(theta, X, y):
     
     h = sigmoid(X @ theta)
     
-    J = -(y.T @ np.log(h) + (1 - y).T @ np.log(1 - h)) / m
+    # RuntimeWarning: divide by zero encountered in log
+    # 이를 방지하고자 log 안에 dummy 값을 더해준다.
+    dummy = 1e-7
+    
+    J = -(y.T @ np.log(h + dummy) + (1 - y).T @ np.log(1 - h + dummy)) / m
 
     grad = X.T @ (h - y) / m
     

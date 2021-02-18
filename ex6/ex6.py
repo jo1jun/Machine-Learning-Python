@@ -31,15 +31,15 @@ from dataset3Params import dataset3Params
 #  The following code will load the dataset into your environment and plot
 #  the data.
 #
-
+print('=============== Part 1: Loading and Visualizing Data ================')
 print('Loading and Visualizing Data ...\n')
 
 # Load from ex6data1: 
 # You will have X, y in your environment
 mat = scipy.io.loadmat('ex6data1.mat')
-X, y = mat['X'], mat['y']
+X, y = mat['X'], mat['y'].flatten()
 #print(X.shape) #(51, 2)
-#print(y.shape) #(51, 1)
+#print(y.shape) #(51,)
 
 # Plot training data
 plotData(X, y)
@@ -48,11 +48,12 @@ plotData(X, y)
 #  The following code will train a linear SVM on the dataset and plot the
 #  decision boundary learned.
 #
-
+print('==================== Part 2: Training Linear SVM ====================')
 # Load from ex6data1: 
 # You will have X, y in your environment
 mat = scipy.io.loadmat('ex6data1.mat')
-X, y = mat['X'], mat['y']
+X, y = mat['X'], mat['y'].flatten()
+
 
 print('Training Linear SVM ...')
 
@@ -62,17 +63,21 @@ print('Training Linear SVM ...')
 # reference : https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC
 
 C = 1
-classifier = svm.SVC(C=C, kernel='linear', tol=1e-3, max_iter=20)
+classifier = svm.SVC(C=C, kernel='linear', tol=1e-3)
 model = classifier.fit(X, y)
 #.fit(X, y[, sample_weight]) Fit the SVM model according to the given training data.
 
+plt.figure()
+plt.title('C = 1')
 visualizeBoundaryLinear(X, y, model)
 #C 가 크지 않은 경우, margin 을 크게 남기려 하는 경향이 적다. 따라서 outlier 를 크게 신경쓰지 않는다.
 
 C = 100
-classifier = svm.SVC(C=C, kernel='linear', tol=1e-3, max_iter=20)
+classifier = svm.SVC(C=C, kernel='linear', tol=1e-3)
 model = classifier.fit(X, y)
 
+plt.figure()
+plt.title('C = 100')
 visualizeBoundaryLinear(X, y, model)
 #C 가 매우 큰 경우, margin 을 크게 남겨야 비용함수의 크기를 줄일 수 있기 때문에 outlier 를 크게 신경쓴다.
 
@@ -80,6 +85,7 @@ visualizeBoundaryLinear(X, y, model)
 #  You will now implement the Gaussian kernel to use
 #  with the SVM. You should complete the code in gaussianKernel.m
 #
+print('=============== Part 3: Implementing Gaussian Kernel ===============')
 print('\nEvaluating the Gaussian Kernel ...\n')
 
 x1 = [1, 2, 1] 
@@ -95,13 +101,13 @@ print('Gaussian Kernel between x1 = [1 2 1], x2 = [0 4 -1], sigma = {} :' \
 #  The following code will load the next dataset into your environment and 
 #  plot the data. 
 #
-
+print('=============== Part 4: Visualizing Dataset 2 ================')
 print('Loading and Visualizing Data ...\n')
 
 # Load from ex6data2: 
 # You will have X, y in your environment
 mat = scipy.io.loadmat('ex6data2.mat')
-X, y = mat['X'], mat['y']   #X.shape = (863,2) , y.shape = (863,1)
+X, y = mat['X'], mat['y'].flatten()   #X.shape = (863,2) , y.shape = (863,)
 # Plot training data
 plt.figure()
 plotData(X, y)
@@ -111,12 +117,13 @@ plotData(X, y)
 #  After you have implemented the kernel, we can now use it to train the 
 #  SVM classifier.
 # 
+print('========== Part 5: Training SVM with RBF Kernel (Dataset 2) ==========')
 print('\nTraining SVM with RBF Kernel (this may take 1 to 2 minutes) ...\n')
 
 # Load from ex6data2: 
 # You will have X, y in your environment
 mat = scipy.io.loadmat('ex6data2.mat')
-X, y = mat['X'], mat['y']   #X.shape = (863,2) , y.shape = (863,1)
+X, y = mat['X'], mat['y'].flatten()   #X.shape = (863,2) , y.shape = (863,)
 
 # SVM Parameters
 C = 1 
@@ -130,7 +137,7 @@ sigma = 0.1
 # reference : https://scikit-learn.org/stable/modules/svm.html 에서 kernel function 부분
 
 g = 1 / (2 * sigma ** 2)
-classifier = svm.SVC(C=C, kernel='rbf', tol=1e-3, max_iter=200, gamma = g)
+classifier = svm.SVC(C=C, kernel='rbf', tol=1e-3, gamma = g)
 model = classifier.fit(X, y)
 visualizeBoundary(X, y, model)
 
@@ -138,13 +145,13 @@ visualizeBoundary(X, y, model)
 #  The following code will load the next dataset into your environment and 
 #  plot the data. 
 #
-
+print('=============== Part 6: Visualizing Dataset 3 ================')
 print('Loading and Visualizing Data ...\n')
 
 # Load from ex6data3: 
 # You will have X, y in your environment
 mat = scipy.io.loadmat('ex6data3.mat')
-X, y = mat['X'], mat['y']   #X.shape = (211,2) , y.shape = (211,1)
+X, y = mat['X'], mat['y'].flatten()   #X.shape = (211,2) , y.shape = (211,)
 # Plot training data
 plt.figure()
 plotData(X, y)
@@ -154,17 +161,17 @@ plotData(X, y)
 #  This is a different dataset that you can use to experiment with. Try
 #  different values of C and sigma here.
 # 
-
+print('========== Part 7: Training SVM with RBF Kernel (Dataset 3) ==========')
 # Load from ex6data3: 
 # You will have X, y in your environment
 mat = scipy.io.loadmat('ex6data3.mat')
-X, y = mat['X'], mat['y']   #X.shape = (211,2) , y.shape = (211,1)
-Xval, yval = mat['Xval'], mat['yval']   #Xval.shape = (200,2) , yval.shape = (200,1)
+X, y = mat['X'], mat['y'].flatten()   #X.shape = (211,2) , y.shape = (211,)
+Xval, yval = mat['Xval'], mat['yval'].flatten()   #Xval.shape = (200,2) , yval.shape = (200,)
 
 # Try different SVM Parameters here
 C, sigma = dataset3Params(X, y, Xval, yval)
 
 # Train the SVM
-classifier = svm.SVC(C=C, kernel='rbf', tol=1e-3, max_iter=200, gamma = g)
+classifier = svm.SVC(C=C, kernel='rbf', tol=1e-3, gamma = g)
 model = classifier.fit(X, y)
 visualizeBoundary(X, y, model)

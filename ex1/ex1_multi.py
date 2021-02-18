@@ -36,7 +36,7 @@ from normalEqn import normalEqn
 ## Initialization
 
 ## ================ Part 1: Feature Normalization ================
-
+print('================ Part 1: Feature Normalization ================')
 print('Loading data ...\n')
 
 ## Load Data
@@ -61,7 +61,7 @@ X, mu, sigma = featureNormalize(X)
 X = np.append(np.ones((m,1)), X, axis = 1) # Add a column of ones to x
 
 ## ================ Part 2: Gradient Descent ================
-
+print('================ Part 2: Gradient Descent ================')
 print('Running gradient descent ...\n')
 
 # Choose some alpha value
@@ -124,7 +124,7 @@ price = np.dot(np.array([1 ,(1650-mu[0])/sigma[0], (3-mu[1])/sigma[1]]), theta)
 print('Predicted price of a 1650 sq-ft, 3 br house (using gradient descent):\n ', price, '\n')
 
 ## ================ Part 3: Normal Equations ================
-
+print('================ Part 3: Normal Equations ================')
 print('Solving with normal equations...\n')
 
 ## Load Data

@@ -34,7 +34,7 @@ num_labels = 10           # 10 labels, from 1 to 10
 #  We start the exercise by first loading and visualizing the dataset.
 #  You will be working with a dataset that contains handwritten digits.
 #
-
+print('=========== Part 1: Loading and Visualizing Data =============')
 # Load Training Data
 print('Loading and Visualizing Data ...\n')
 
@@ -57,7 +57,7 @@ displayData(sel)
 #  that, you will implement one-vs-all classification for the handwritten
 #  digit dataset.
 #
-
+print('=========== Part 2a: Vectorize Logistic Regression =============')
 # Test case for lrCostFunction
 print('\nTesting lrCostFunction() with regularization')
 
@@ -79,12 +79,14 @@ print(' 0.146561\n -0.548558\n 0.724722\n 1.398003\n')
 
 
 ## ============ Part 2b: One-vs-All Training ============
+print('=========== Part 2b: One-vs-All Training =============')
 print('\nTraining One-vs-All Logistic Regression...\n')
 
 _lambda = 0.1
 all_theta = oneVsAll(X, y, num_labels, _lambda)
 
 ## ================ Part 3: Predict for One-Vs-All ================
+print('=========== Part 3: Predict for One-Vs-All =============')
 
 pred = predictOneVsAll(all_theta, X)
 #print(y.shape)

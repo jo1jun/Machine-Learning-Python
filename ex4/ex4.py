@@ -9,7 +9,7 @@ from sigmoidGradient import sigmoidGradient
 from randInitializeWeights import randInitializeWeights
 from checkNNGradients import checkNNGradients
 import scipy.optimize as op
-from predict import predict
+from predict_ex4 import predict
 
 ## Machine Learning Online Class - Exercise 4 Neural Network Learning
 
@@ -38,7 +38,7 @@ num_labels = 10          # 10 labels, from 1 to 10
 #  We start the exercise by first loading and visualizing the dataset. 
 #  You will be working with a dataset that contains handwritten digits.
 #
-
+print('=========== Part 1: Loading and Visualizing Data =============')
 # Load Training Data
 print('Loading and Visualizing Data ...\n')
 
@@ -59,7 +59,8 @@ displayData(sel)
 ## ================ Part 2: Loading Parameters ================
 # In this part of the exercise, we load some pre-initialized 
 # neural network parameters.
-
+#
+print('================ Part 2: Loading Parameters ================')
 print('\nLoading Saved Neural Network Parameters ...\n')
 
 # Load the weights into variables Theta1 and Theta2
@@ -87,6 +88,7 @@ nn_params = np.append(Theta1.reshape(-1), Theta2.reshape(-1))   # -1 : 나머지
 #  first so that it will be easier for you to debug. Later, in part 4, you
 #  will get to implement the regularized cost.
 #
+print('================ Part 3: Compute Cost (Feedforward) ================')
 print('\nFeedforward Using Neural Network ...\n')
 
 # Weight regularization parameter (we set this to 0 here).
@@ -100,7 +102,7 @@ print('Cost at parameters (loaded from ex4weights): %f\n(this value should be ab
 #  Once your cost function implementation is correct, you should now
 #  continue to implement the regularization with the cost.
 #
-
+print('=============== Part 4: Implement Regularization ===============')
 print('\nChecking Cost Function (w/ Regularization) ... \n')
 
 # Weight regularization parameter (we set this to 1 here).
@@ -116,7 +118,7 @@ print('Cost at parameters (loaded from ex4weights): %f\n(this value should be ab
 #  implement the gradient for the sigmoid function. You should complete the
 #  code in the sigmoidGradient.m file.
 #
-
+print('================ Part 5: Sigmoid Gradient  ================')
 print('\nEvaluating sigmoid gradient...\n')
 
 g = sigmoidGradient([-1, -0.5, 0, 0.5, 1])
@@ -130,7 +132,7 @@ print('\n\n')
 #  layer neural network that classifies digits. You will start by
 #  implementing a function to initialize the weights of the neural network
 #  (randInitializeWeights.m)
-
+print('================ Part 6: Initializing Pameters ================')
 print('\nInitializing Neural Network Parameters ...\n')
 
 initial_Theta1 = randInitializeWeights(input_layer_size, hidden_layer_size)
@@ -146,6 +148,7 @@ initial_nn_params = np.append(initial_Theta1.reshape(-1), initial_Theta2.reshape
 #  code you've written in nnCostFunction.m to return the partial
 #  derivatives of the parameters.
 #
+print('=============== Part 7: Implement Backpropagation ===============')
 print('\nChecking Backpropagation... \n')
 
 #  Check gradients by running checkNNGradients
@@ -156,7 +159,7 @@ checkNNGradients(_lambda)
 #  Once your backpropagation implementation is correct, you should now
 #  continue to implement the regularization with the cost and gradient.
 #
-
+print('=============== Part 8: Implement Regularization ===============')
 print('\nChecking Backpropagation (w/ Regularization) ... \n')
 
 #  Check gradients by running checkNNGradients
@@ -177,6 +180,7 @@ print('\n\nCost at (fixed) debugging parameters (w/ lambda = ',_lambda,'): ',deb
 #  advanced optimizers are able to train our cost functions efficiently as
 #  long as we provide them with the gradient computations.
 #
+print('=================== Part 8: Training NN ===================')
 print('\nTraining Neural Network... \n')
 
 #  After you have completed the assignment, change the MaxIter to a larger
@@ -203,7 +207,7 @@ Theta2 = Theta2.reshape(num_labels, -1)
 #  You can now "visualize" what the neural network is learning by 
 #  displaying the hidden units to see what features they are capturing in 
 #  the data.
-
+print('================= Part 9: Visualize Weights =================')
 print('\nVisualizing Neural Network... \n')
 
 plt.figure()
@@ -214,7 +218,7 @@ displayData(Theta1[:,1:])
 #  the labels. You will now implement the "predict" function to use the
 #  neural network to predict the labels of the training set. This lets
 #  you compute the training set accuracy.
-
+print('================= Part 10: Implement Predict =================')
 pred = predict(Theta1, Theta2, X)
 pred = pred.reshape(-1,1)
 

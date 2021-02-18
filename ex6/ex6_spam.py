@@ -32,7 +32,7 @@ import numpy as np
 #  implement the preprocessing steps for each email. You should
 #  complete the code in processEmail.m to produce a word indices vector
 #  for a given email.
-
+print('==================== Part 1 Email Preprocessing ====================')
 print('\nPreprocessing sample email (emailSample1.txt)\n')
 
 # Extract Features
@@ -48,7 +48,7 @@ print('\n\n')
 #  Now, you will convert each email into a vector of features in R^n. 
 #  You should complete the code in emailFeatures.m to produce a feature
 #  vector for a given email.
-
+print('==================== Part 2 Feature Extraction ====================')
 print('\nExtracting features from sample email (emailSample1.txt)\n')
 
 # Extract Features
@@ -63,11 +63,11 @@ print('Number of non-zero entries ', sum(features > 0), '\n')
 ## =========== Part 3 Train Linear SVM for Spam Classification ========
 #  In this section, you will train a linear classifier to determine if an
 #  email is Spam or Not-Spam.
-
+print('=========== Part 3 Train Linear SVM for Spam Classification ========')
 # Load the Spam Email dataset
 # You will have X, y in your environment
 mat = scipy.io.loadmat('spamTrain.mat')
-X, y = mat['X'], mat['y']
+X, y = mat['X'], mat['y'].flatten()
 
 print('\nTraining Linear SVM (Spam Classification)\n')
 print('(this may take 1 to 2 minutes) ...\n')
@@ -81,11 +81,12 @@ print('Training Accuracy ', np.mean(p == y) * 100, '\n')
 ## =================== Part 4 Test Spam Classification ================
 #  After training the classifier, we can evaluate it on a test set. We have
 #  included a test set in spamTest.mat
+print('=================== Part 4 Test Spam Classification ================')
 
 # Load the test dataset
 # You will have Xtest, ytest in your environment
 mat = scipy.io.loadmat('spamTest.mat')
-Xtest, ytest = mat['Xtest'], mat['ytest']
+Xtest, ytest = mat['Xtest'], mat['ytest'].flatten()
 
 print('\nEvaluating the trained Linear SVM on a test set ...\n')
 
@@ -101,6 +102,7 @@ print('Test Accuracy: ', np.mean(p == ytest) * 100, '\n')
 #  the highest weights in the classifier. Informally, the classifier
 #  'thinks' that these words are the most likely indicators of spam.
 #
+print('================= Part 5 Top Predictors of Spam ====================')
 
 # Sort the weights and obtin the vocabulary list
 weight = model.coef_.flatten()
@@ -120,6 +122,7 @@ for i in range(15):
 #  The following code reads in one of these emails and then uses your 
 #  learned SVM classifier to determine whether the email is Spam or 
 #  Not Spam
+print('=================== Part 6 Try Your Own Emails =====================')
 
 # Set the file to be read in (change this to spamSample2.txt,
 # emailSample1.txt or emailSample2.txt to see different predictions on

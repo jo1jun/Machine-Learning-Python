@@ -35,6 +35,7 @@ from kMeansInitCentroids import kMeansInitCentroids
 #  into two functions -- findClosestCentroids and computeCentroids. In this
 #  part, you should complete the code in the findClosestCentroids function. 
 #
+print('================= Part 1: Find Closest Centroids ====================')
 print('Finding closest centroids.\n\n')
 
 # Load an example dataset that we will be using
@@ -57,6 +58,7 @@ print('\n(the closest centroids should be 1, 3, 2 respectively)\n')
 #  After implementing the closest centroids function, you should now
 #  complete the computeCentroids function.
 #
+print('================= Part 2: Compute Means ====================')
 print('\nComputing centroids means.\n\n')
 
 #  Compute means based on the closest centroids found in the previous part.
@@ -75,6 +77,7 @@ print('   [ 7.119387 3.616684 ]\n\n')
 #  kMeans algorithm. In this part, you will run the K-Means algorithm on
 #  the example dataset we have provided. 
 #
+print('================= Part 3: K-Means Clustering ====================')
 print('\nRunning K-Means clustering on example dataset.\n\n')
 
 # Load an example dataset
@@ -103,7 +106,7 @@ print('\nK-Means Done.\n\n')
 #  
 #  You should now complete the code in kMeansInitCentroids.m
 #
-
+print('================= Part 4: K-Means Clustering on Pixels ====================')
 print('\nRunning K-Means clustering on pixels from an image.\n\n')
 
 # Load an image of a bird
@@ -142,7 +145,7 @@ centroids, idx = runkMeans(X, initial_centroids, max_iters)
 #  In this part of the exercise, you will use the clusters of K-Means to
 #  compress an image. To do this, we first find the closest clusters for
 #  each example. After that, we 
-
+print('================= Part 5: Image Compression ====================')
 print('\nApplying K-Means to compress an image.\n\n')
 
 # Find closest cluster members
@@ -170,7 +173,7 @@ plt.imshow(X_recovered)
 plt.title('Compressed, with {} colors.'.format(K))
 
 ## ================= Part 6: Use your own image ======================
-
+print('================= Part 6: Use your own image ====================')
 print('\nRunning K-Means clustering on pixels from an image.\n\n')
 A = imageio.imread('my_image.png')
 
@@ -205,7 +208,7 @@ centroids, idx = runkMeans(X, initial_centroids, max_iters)
 #  In this part of the exercise, you will use the clusters of K-Means to
 #  compress an image. To do this, we first find the closest clusters for
 #  each example. After that, we 
-
+print('================= Image Compression ======================')
 print('\nApplying K-Means to compress an image.\n\n')
 
 # Find closest cluster members

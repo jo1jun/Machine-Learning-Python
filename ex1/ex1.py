@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from warmUpExercise import warmUpExercise
 from load import load
-from plotData import plotData
+from plotData_ex1 import plotData
 from computeCost import computeCost
 from gradientDescent import gradientDescent
 
@@ -34,6 +34,7 @@ from gradientDescent import gradientDescent
 #
 
 ## ==================== Part 1: Basic Function ====================
+print('==================== Part 1: Basic Function ====================')
 
 # Complete warmUpExercise.py
 print('Running warmUpExercise ... \n')
@@ -42,7 +43,7 @@ print(warmUpExercise(), '\n')
 
 
 ## ======================= Part 2: Plotting =======================
-
+print('======================= Part 2: Plotting =======================')
 print('Plotting Data ...\n')
 
 data = load('ex1data1.txt')
@@ -56,7 +57,7 @@ y = y[:,np.newaxis] #y 를 1차원 tuple 에서 2차원 배열로 (m,) -> (m,1)
 plotData(X, y)
 
 ## =================== Part 3: Cost and Gradient descent ===================
-
+print('=================== Part 3: Cost and Gradient descent ===================')
 X = np.append(np.ones((m,1)), data[:,0].reshape(m,1), axis = 1) # Add a column of ones to x
 
 theta = np.zeros((2, 1), float) # initialize fitting parameters
@@ -100,7 +101,7 @@ print('For population = 70,000, we predict a profit of ', predict2*10000, '\n')
 
 
 ## ============= Part 4: Visualizing J(theta_0, theta_1) =============
-
+print('===================  Part 4: Visualizing J(theta_0, theta_1) ===================')
 print('Visualizing J(theta_0, theta_1) ...\n')
 
 # Grid over which we will calculate J

@@ -33,7 +33,7 @@ from selectThreshold import selectThreshold
 #  several machines: the latency and throughput of each machine.
 #  This exercise will help us find possibly faulty (or very fast) machines.
 #
-
+print('================== Part 1: Load Example Dataset ===================')
 print('Visualizing example dataset for outlier detection.\n\n')
 
 #  The following command loads the dataset. You should now have the
@@ -42,6 +42,7 @@ mat = scipy.io.loadmat('ex8data1.mat')
 X, Xval, yval = mat['X'], mat['Xval'], mat['yval']
 
 #  Visualize the example dataset
+plt.figure()
 plt.plot(X[:, 0], X[:, 1], 'bx')
 plt.axis([0, 30, 0, 30])
 plt.xlabel('Latency (ms)')
@@ -56,6 +57,7 @@ plt.ylabel('Throughput (mb/s)')
 #  both the overall distribution and where each of the points falls in 
 #  terms of that distribution.
 #
+print('================== Part 2: Estimate the dataset statistics ===================')
 print('Visualizing Gaussian fit.\n\n')
 
 #  Estimate my and sigma2
@@ -74,7 +76,7 @@ plt.ylabel('Throughput (mb/s)')
 #  Now you will find a good epsilon threshold using a cross-validation set
 #  probabilities given the estimated Gaussian distribution
 # 
-
+print('================== Part 3: Find Outliers ===================')
 pval = multivariateGaussian(Xval, mu, sigma2)
 
 epsilon, F1 = selectThreshold(yval, pval)
@@ -96,7 +98,7 @@ plt.plot(X[outliers, 0], X[outliers, 1], 'ro', linewidth=2, markersize=10)
 #  harder problem in which more features describe each datapoint and only 
 #  some features indicate whether a point is an outlier.
 #
-
+print('================== Part 4: Multidimensional Outliers ===================')
 #  Loads the second dataset. You should now have the
 #  variables X, Xval, yval in your environment
 mat = scipy.io.loadmat('ex8data2.mat')

@@ -36,7 +36,7 @@ def dataset3Params(X, y, Xval, yval):
         C = values[i]
         sigma = values[j]
         g = 1 / (2 * sigma ** 2)
-        classifier = svm.SVC(C=C, kernel='rbf', tol=1e-3, max_iter=200, gamma = g)
+        classifier = svm.SVC(C=C, kernel='rbf', tol=1e-3, gamma = g)
         model = classifier.fit(X, y)
         predictions = model.predict(Xval).reshape(-1,1)
         means[k] = np.mean(predictions != yval)

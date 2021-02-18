@@ -37,6 +37,7 @@ from plotDataPoints import plotDataPoints
 #  We start this exercise by using a small dataset that is easily to
 #  visualize
 #
+print('================== Part 1: Load Example Dataset  ===================')
 print('Visualizing example dataset for PCA.\n\n')
 
 #  The following command loads the dataset. You should now have the 
@@ -52,6 +53,7 @@ plt.axis([0.5, 6.5, 2, 8])
 #  You should now implement PCA, a dimension reduction technique. You
 #  should complete the code in pca.m
 #
+print('================== Part 2: Principal Component Analysis ===================')
 print('\nRunning PCA on example dataset.\n\n')
 
 #  Before running PCA, it is important to first normalize X
@@ -80,6 +82,7 @@ print('\n(you should expect to see -0.707107 -0.707107)\n')
 #
 #  You should complete the code in projectData.m
 #
+print('================== Part 3: Dimension Reduction ===================')
 print('\nDimension reduction on example dataset.\n\n')
 
 #  Plot the normalized dataset (returned from pca)
@@ -108,6 +111,7 @@ for i in range(X_norm.shape[0]):
 #  We start the exercise by first loading and visualizing the dataset.
 #  The following code will load the dataset into your environment
 #
+print('================== Part 4: Loading and Visualizing Face Data ===================')
 print('\nLoading face dataset.\n\n')
 
 #  Load Face dataset
@@ -122,6 +126,7 @@ displayData(X[:100, :])
 #  Run PCA and visualize the eigenvectors which are in this case eigenfaces
 #  We display the first 36 eigenfaces.
 #
+print('================== Part 5: PCA on Face Data: Eigenfaces ===================')
 print('\nRunning PCA on face dataset.\n' \
          '(this might take a minute or two ...)\n\n')
 
@@ -140,6 +145,7 @@ displayData(U[:, :36].T)
 ## ============= Part 6: Dimension Reduction for Faces =================
 #  Project images to the eigen space using the top k eigenvectors 
 #  If you are applying a machine learning algorithm 
+print('================== Part 6: Dimension Reduction for Faces ===================')
 print('\nDimension reduction for face dataset.\n\n')
 
 K = 100

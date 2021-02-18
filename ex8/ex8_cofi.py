@@ -30,6 +30,7 @@ import scipy.optimize as op
 #  You will start by loading the movie ratings dataset to understand the
 #  structure of the data.
 #  
+print('=============== Part 1: Loading movie ratings dataset ================')
 print('Loading movie ratings dataset.\n\n')
 
 #  Load data
@@ -57,7 +58,7 @@ plt.xlabel('Users')
 #  To help you debug your cost function, we have included set of weights
 #  that we trained on that. Specifically, you should complete the code in 
 #  cofiCostFunc.m to return J.
-
+print('============ Part 2: Collaborative Filtering Cost Function ===========')
 #  Load pre-trained weights (X, Theta, num_users, num_movies, num_features)
 mat = scipy.io.loadmat('ex8_movieParams.mat')
 num_features, num_movies, num_users = mat['num_features'], mat['num_movies'], mat['num_users']
@@ -84,7 +85,8 @@ print('Cost at loaded parameters: {} '\
 #  the collaborative filtering gradient function. Specifically, you should 
 #  complete the code in cofiCostFunc.m to return the grad argument.
 #  
-print('\nChecking Gradients (without regularization) ... \n')
+
+print('============== Part 3: Collaborative Filtering Gradient ==============')
 
 #  Check gradients by running checkNNGradients
 checkCostFunction()
@@ -94,7 +96,7 @@ checkCostFunction()
 #  collaborative filtering. You can implement it by adding the cost of
 #  regularization to the original cost computation.
 #  
-
+print('======= Part 4: Collaborative Filtering Cost Regularization ======')
 #  Evaluate cost function
 J,_ = cofiCostFunc(np.append(X.flatten(), Theta.flatten()), Y, R, num_users, num_movies,\
                num_features, 1.5)
@@ -108,7 +110,7 @@ print('Cost at loaded parameters (lambda = 1.5): {} '\
 #  Once your cost matches up with ours, you should proceed to implement 
 #  regularization for the gradient. 
 #
-
+print('======= Part 5: Collaborative Filtering Gradient Regularization ======')
 #
 print('\nChecking Gradients (with regularization) ... \n')
 
@@ -123,6 +125,7 @@ checkCostFunction(1.5)
 #  part of the code will also allow you to put in your own ratings for the
 #  movies in our dataset!
 #
+print('============== Part 6: Entering ratings for a new user ===============')
 movieList = loadMovieList()
 
 #  Initialize my ratings
@@ -157,7 +160,7 @@ for i in range(len(my_ratings)):
 #  Now, you will train the collaborative filtering model on a movie rating 
 #  dataset of 1682 movies and 943 users
 #
-
+print('============== Part 7: Learning Movie Ratings ===============')
 print('\nTraining collaborative filtering...\n')
 
 #  Load data
@@ -207,7 +210,7 @@ print('Recommender system learning completed.\n')
 #  After training the model, you can now make recommendations by computing
 #  the predictions matrix.
 #
-
+print('============== Part 8: Recommendation for you ===============')
 p = X @ Theta.T
 my_predictions = p[:,0].reshape(-1,1) + Ymean
 my_predictions = my_predictions.flatten()

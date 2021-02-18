@@ -3,7 +3,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 from load import load
 import numpy as np
 import matplotlib.pyplot as plt
-from plotData import plotData
+from plotData_ex2 import plotData
 from costFunction import costFunction
 from plotDecisionBoundary import plotDecisionBoundary
 from sigmoid import sigmoid
@@ -35,6 +35,7 @@ y = data[:, 2]
 y = y[:,np.newaxis]
 
 ## ==================== Part 1: Plotting ====================
+print('==================== Part 1: Plotting ====================')
 #  We start the exercise by first plotting the data to understand the 
 #  the problem we are working with.
 
@@ -49,7 +50,7 @@ plt.ylabel('Exam 2 score')
 #  In this part of the exercise, you will implement the cost and gradient
 #  for logistic regression. You neeed to complete the code in 
 #  costFunction.py
-
+print('==================== Part 2: Compute Cost and Gradient ====================')
 #  Setup the data matrix appropriately, and add ones for the intercept term
 m, n = X.shape
 
@@ -83,6 +84,8 @@ print('Expected gradients (approx):\n 0.043\n 2.566\n 2.647\n')
 ## ============= Part 3: Optimizing using fminunc  =============
 #  In this exercise, you will use a built-in function (fminunc) to find the
 #  optimal parameters theta.
+print('==================== Part 3: Optimizing using fminunc ====================')
+
 #  octave 의 fminunc 대신, python 에서 동작하는 프레임 워크(scipy.optimize.minimize)를 활용
 #  reference : https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize
 
@@ -123,6 +126,7 @@ plt.ylabel('Exam 2 score')
 
 #  Predict probability for a student with score 45 on exam 1 
 #  and score 85 on exam 2 
+print('==================== Part 4: Predict and Accuracies ====================')
 
 prob = sigmoid([1, 45, 85] @ theta)
 print('For a student with scores 45 and 85, we predict an admission probability of ', prob);

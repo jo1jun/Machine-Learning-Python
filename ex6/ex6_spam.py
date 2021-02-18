@@ -76,6 +76,8 @@ C = 0.1
 classifier = svm.SVC(C=C, kernel='linear', tol=1e-3)
 model = classifier.fit(X, y)
 p = model.predict(X).reshape(-1,1)
+y = y.reshape(-1,1)
+
 print('Training Accuracy ', np.mean(p == y) * 100, '\n')
 
 ## =================== Part 4 Test Spam Classification ================

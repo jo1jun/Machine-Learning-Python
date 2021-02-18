@@ -48,7 +48,7 @@ def dataset3Params(X, y, Xval, yval):
     C = values[int(idxs[idx,0])]
     sigma = values[int(idxs[idx,1])]
     
-    print('error : ',means[idx])
+    print('error : ', means[idx])
     print('C : ', C)
     print('sigma : ', sigma)
     

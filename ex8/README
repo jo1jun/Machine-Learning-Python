@@ -1,2 +1,8 @@
 # multivariateGaussian.py 에서 original gaussian model 을 사용해도 잘 작동한다. 왜냐하면 이 연습문제에서는 feature 사이의 상관관계가 없기 때문이다.
 # 추후에 상관관계가 있는 dataset 을 추가할 수 있으면 추가하여 둘을 비교해보자.
+
+# collaborative filtering 에서 x, theta를 전부 0으로 초기화 하면 갱신이 이루어지지 않는다
+# neural net 에서 theta 초기화와 비슷한 맥락이다. (참고 : https://github.com/jo1jun/Machine-Learning-Python/tree/main/ex4)
+# 각각 혹은 전체가 전부 동일한 값이면 갱신이 원활하게 이루어지지 않는다.
+# ex8_cofi.py 에서 초기값을 X는 1, Theta는 2로 초기화 하면
+# X, Theta 를 보면 행마다 전부 동일한 값으로 되어있는 것을 볼 수 있다.

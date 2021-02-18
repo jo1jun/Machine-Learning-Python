@@ -1,0 +1,2 @@
+# multivariateGaussian.py 에서 original gaussian model 을 사용해도 잘 작동한다. 왜냐하면 이 연습문제에서는 feature 사이의 상관관계가 없기 때문이다.
+# 추후에 상관관계가 있는 dataset 을 추가할 수 있으면 추가하여 둘을 비교해보자.

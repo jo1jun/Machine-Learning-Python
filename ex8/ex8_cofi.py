@@ -186,10 +186,17 @@ num_movies = Y.shape[0]
 num_features = 10
 
 # Set Initial Parameters (Theta, X)
+'''
 X = np.random.randn(num_movies, num_features)
 Theta = np.random.randn(num_users, num_features)
+'''
+X = np.zeros((num_movies, num_features)) + 1
+Theta = np.zeros((num_users, num_features)) + 2
+# 전부 0으로 초기화 하면 갱신이 이루어지지 않는다.
+# 전부 동일한 값 (각각 혹은 전체가) 이라면 갱신은 되긴 하지만 성능이 좋지 못하다.
 
 initial_parameters = np.append(X.flatten(), Theta.flatten())
+
 
 # optimize
 _lambda = 10
@@ -203,6 +210,9 @@ print('cost : ', result.fun)
 # Unfold the returned theta back into U and W
 X = np.reshape(theta[:num_movies*num_features], (num_movies, num_features))
 Theta = np.reshape(theta[num_movies*num_features:], (num_users, num_features))
+
+print(np.unique(X))
+print(np.unique(Theta))
 
 print('Recommender system learning completed.\n')
 

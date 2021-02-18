@@ -19,14 +19,14 @@ def nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X
     Theta1 = nn_params[:(input_layer_size + 1) * hidden_layer_size] #bias 고려하여 +1
     Theta2 = nn_params[np.size(Theta1):]
     
-    #print(Theta1.shape)
-    #print(Theta2.shape)
+    # print(Theta1.shape)
+    # print(Theta2.shape)
     
     Theta1 = Theta1.reshape(hidden_layer_size, -1)
     Theta2 = Theta2.reshape(num_labels, -1)
     
-    print(Theta1.shape)
-    print(Theta2.shape)
+    # print(Theta1.shape)
+    # print(Theta2.shape)
     
     # Setup some useful variables
     m = X.shape[0]

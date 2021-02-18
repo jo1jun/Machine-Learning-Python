@@ -117,6 +117,7 @@ print('\nLoading face dataset.\n\n')
 #  Load Face dataset
 mat = scipy.io.loadmat('ex7faces.mat')
 X = mat['X']
+#print(X.shape) # (5000, 1024)
 
 #  Display the first 100 faces in the dataset
 plt.figure()
@@ -149,10 +150,10 @@ print('================== Part 6: Dimension Reduction for Faces ================
 print('\nDimension reduction for face dataset.\n\n')
 
 K = 100
-Z = projectData(X_norm, U, K)
+Z = projectData(X_norm, U, K)   #1024 차원에서 100 차원으로 축소
 
 print('The projected data Z has a size of: ')
-print(np.size(Z))
+print(Z.shape)
 
 ## ==== Part 7: Visualization of Faces after PCA Dimension Reduction ====
 #  Project images to the eigen space using the top K eigen vectors and 
@@ -162,7 +163,7 @@ print(np.size(Z))
 print('\nVisualizing the projected (reduced dimension) faces.\n\n')
 
 K = 100
-X_rec  = recoverData(Z, U, K)
+X_rec  = recoverData(Z, U, K) 
 
 # Display normalized data
 plt.figure()
@@ -213,7 +214,7 @@ X_norm, mu, sigma = featureNormalize(X)
 
 # PCA and project the data to 2D
 U, S = pca(X_norm)
-Z = projectData(X_norm, U, 2)
+Z = projectData(X_norm, U, 2)   # 3차원에서 2차원으로 차원 축소
 
 # Plot in 2D
 plt.figure()
